@@ -1,1 +1,1 @@
-C:\Users\79824\AppData\Local\Programs\Python\Python36\Scripts\pyuic5.exe form.ui -o form.py
+C:\Users\79824\AppData\Local\Programs\Python\Python36\Scripts\pyuic5.exe Expert_System.ui -o Expert_System.py
