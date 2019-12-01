@@ -35,8 +35,8 @@ class Expert_System(QtWidgets.QMainWindow):
         self.DialogDomainAdd_ui = Ui_DialogDomainsAdd()
         self.DialogDomainAdd_ui.setupUi(self.DialogDomainAddWindow)
         self.DialogDomainAdd_ui.buttonAdd.clicked.connect(self.click_DialogDomainAdd_buttonAdd)
-        #self.DialogDomainAdd_ui.buttonEdit.clicked.connect(self.click_DialogDomainAdd_buttonEdit)
-        #self.DialogDomainAdd_ui.buttonDelete.clicked.connect(self.click_DialogDomainAdd_buttonDelete)
+        self.DialogDomainAdd_ui.buttonEdit.clicked.connect(self.click_DialogDomainAdd_buttonEdit)
+        self.DialogDomainAdd_ui.buttonDelete.clicked.connect(self.click_DialogDomainAdd_buttonDelete)
         
         # Диалоговое окно для редактирования доменов после кнопки РЕДАКТИРОВАТЬ
         # Диалоговое окно для удаления доменов после кнопки УДАЛИТЬ
@@ -71,6 +71,8 @@ class Expert_System(QtWidgets.QMainWindow):
     def showDialogExit(self):
         pass
 
+
+
     def showDialogDomains(self):
         self.DialogDomainWindow.show()
         rsp = self.DialogDomainWindow.exec_()
@@ -78,6 +80,9 @@ class Expert_System(QtWidgets.QMainWindow):
             print(1)
         else:
             print(0)
+
+
+
 
     def showDialogDomainAdd(self):
         self.DialogDomainAddWindow.show()
@@ -125,11 +130,34 @@ class Expert_System(QtWidgets.QMainWindow):
         self.DialogDomainAdd_ui.domainValue.clear()
         self.DialogDomainAdd_ui.domainList.clear()
 
-
     def click_DialogDomainAdd_buttonAdd(self):
         value = self.DialogDomainAdd_ui.domainValue.text()
         self.DialogDomainAdd_ui.domainList.addItem(value)
         self.DialogDomainAdd_ui.domainValue.setText('')
+
+    def click_DialogDomainAdd_buttonEdit(self):
+        edit_item = self.DialogDomainAdd_ui.domainList.currentItem().text()
+        items = [str(self.DialogDomainAdd_ui.domainList.item(i).text()) for i in range(self.DialogDomainAdd_ui.domainList.count())]
+        new_value = self.DialogDomainAdd_ui.domainValue.text()
+        self.DialogDomainAdd_ui.domainList.clear()
+        for item in items:
+            if edit_item == item:
+                self.DialogDomainAdd_ui.domainList.addItem(new_value)
+            else:
+                self.DialogDomainAdd_ui.domainList.addItem(item)
+        self.DialogDomainAdd_ui.domainValue.clear()
+
+    def click_DialogDomainAdd_buttonDelete(self):
+        delete_item = self.DialogDomainAdd_ui.domainList.currentItem().text()
+        items = [str(self.DialogDomainAdd_ui.domainList.item(i).text()) for i in range(self.DialogDomainAdd_ui.domainList.count())]
+        self.DialogDomainAdd_ui.domainList.clear()
+        for item in items:
+            if delete_item == item:
+                continue
+            else:
+                self.DialogDomainAdd_ui.domainList.addItem(item)
+        self.DialogDomainAdd_ui.domainValue.clear()
+
 
     def showDialogVariables(self):
         pass
