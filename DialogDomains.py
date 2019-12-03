@@ -16,14 +16,10 @@ class DialogDomain(QDialog):
         self.ui.buttonDelete.clicked.connect(self.click_buttonDelete)
 
     def click_buttonAdd(self):
-        Window = QDialog()
         ui = DialogDomainAdd()
-        ui.setupUi(Window_DialogDomain)
-        rsp = Window_DialogDomain.exec_()
-        if rsp == QDialog.Accepted:
-            print(1)
-        else:
-            print(0)
+        if ui.exec_() == QDialog.Accepted:
+            self.knowledge.addDomain(ui.gather_domain())
+            print(self.knowledge.domains)
 
     def click_buttonEdit(self):
         pass
