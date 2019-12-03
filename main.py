@@ -90,6 +90,7 @@ class Expert_System(QMainWindow):
     #        self.clear_dialogAdd()
     #    else:
     #        pass
+
     #def gather_row(self):
     #    row = self.DialogDomain_ui.tableWidget.selectedItems()
     #    for cell in row:
@@ -106,16 +107,19 @@ class Expert_System(QMainWindow):
     #    elif domain_type == 'Целочисленный':
     #        values = [int(v) for v in values]
     #    return n, name, values, domain_type
+
     #def get_N(self):
     #    row = self.DialogDomain_ui.tableWidget.selectedItems()
     #    for cell in row:
     #        if cell.column() == 0:
     #            n = int(cell.text())
     #    return n
+
     #def showDialogDomain_buttonDelete(self):
     #    n = self.get_N()
     #    del self.knowledge.domains[n]
     #    self.update_table()
+
     #def showDialogDomain_buttonAdd(self):
     #    self.DialogDomainAddWindow.show()
     #    rsp = self.DialogDomainAddWindow.exec_()
@@ -125,11 +129,15 @@ class Expert_System(QMainWindow):
     #        self.clear_dialogAdd()
     #    else:
     #        pass
+
+    ##### COPYED
     #def gather_domain(self):
     #    name = self.DialogDomainAdd_ui.domainName.text()
     #    domain_type = self.DialogDomainAdd_ui.domainType.currentText()
     #    values = self.get_values(domain_type)
     #    return (name, values, domain_type)
+    
+    ##### COPYED
     #def get_values(self, domain_type):
     #    values = []
     #    for i in range(self.DialogDomainAdd_ui.domainList.count()):
@@ -140,6 +148,7 @@ class Expert_System(QMainWindow):
     #        else:
     #            values.append(float(self.DialogDomainAdd_ui.domainList.item(i).text()))
     #    return values
+
     #def update_table(self):
     #    rows = len(self.knowledge.domains)
     #    self.DialogDomain_ui.tableWidget.setRowCount(rows)
@@ -153,14 +162,19 @@ class Expert_System(QMainWindow):
     #        self.DialogDomain_ui.tableWidget.setItem(
     #            n, 3, QTableWidgetItem(', '.join([str(v) for v in values]))
     #            )     
+
     #def clear_dialogAdd(self):
     #    self.DialogDomainAdd_ui.domainName.clear()
     #    self.DialogDomainAdd_ui.domainValue.clear()
     #    self.DialogDomainAdd_ui.domainList.clear()
+
+    ##### COPYED
     #def click_DialogDomainAdd_buttonAdd(self):
     #    value = self.DialogDomainAdd_ui.domainValue.text()
     #    self.DialogDomainAdd_ui.domainList.addItem(value)
     #    self.DialogDomainAdd_ui.domainValue.setText('')
+
+    ##### COPYED
     #def click_DialogDomainAdd_buttonEdit(self):
     #    edit_item = self.DialogDomainAdd_ui.domainList.currentItem().text()
     #    items = [str(self.DialogDomainAdd_ui.domainList.item(i).text()) for i in range(self.DialogDomainAdd_ui.domainList.count())]
@@ -172,6 +186,8 @@ class Expert_System(QMainWindow):
     #        else:
     #            self.DialogDomainAdd_ui.domainList.addItem(item)
     #    self.DialogDomainAdd_ui.domainValue.clear()
+
+    ##### COPYED
     #def click_DialogDomainAdd_buttonDelete(self):
     #    delete_item = self.DialogDomainAdd_ui.domainList.currentItem().text()
     #    items = [str(self.DialogDomainAdd_ui.domainList.item(i).text()) for i in range(self.DialogDomainAdd_ui.domainList.count())]

@@ -1,74 +1,64 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+from gui_py.DialogDomainAdd import Ui_dialog
+from PyQt5.QtWidgets import QDialog, QWidget, QApplication
 
-class Ui_Dialog(object):
-    def setupUi(self, dialog):
-        dialog.setObjectName("dialog")
-        dialog.resize(654, 480)
-        self.buttonBox = QtWidgets.QDialogButtonBox(dialog)
-        self.buttonBox.setGeometry(QtCore.QRect(10, 440, 621, 32))
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
-        self.groupBox = QtWidgets.QGroupBox(dialog)
-        self.groupBox.setGeometry(QtCore.QRect(20, 20, 301, 53))
-        self.groupBox.setObjectName("groupBox")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.groupBox)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.domainName = QtWidgets.QLineEdit(self.groupBox)
-        self.domainName.setObjectName("domainName")
-        self.verticalLayout.addWidget(self.domainName)
-        self.groupBox_2 = QtWidgets.QGroupBox(dialog)
-        self.groupBox_2.setGeometry(QtCore.QRect(20, 80, 301, 53))
-        self.groupBox_2.setObjectName("groupBox_2")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.groupBox_2)
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.domainType = QtWidgets.QComboBox(self.groupBox_2)
-        self.domainType.setObjectName("domainType")
-        self.domainType.addItem("")
-        self.domainType.addItem("")
-        self.domainType.addItem("")
-        self.verticalLayout_2.addWidget(self.domainType)
-        self.groupBox_3 = QtWidgets.QGroupBox(dialog)
-        self.groupBox_3.setGeometry(QtCore.QRect(20, 150, 301, 271))
-        self.groupBox_3.setObjectName("groupBox_3")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.groupBox_3)
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.domainList = QtWidgets.QListWidget(self.groupBox_3)
-        self.domainList.setObjectName("domainList")
-        self.verticalLayout_3.addWidget(self.domainList)
-        self.groupBox_4 = QtWidgets.QGroupBox(dialog)
-        self.groupBox_4.setGeometry(QtCore.QRect(340, 150, 271, 151))
-        self.groupBox_4.setObjectName("groupBox_4")
-        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.groupBox_4)
-        self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.domainValue = QtWidgets.QLineEdit(self.groupBox_4)
-        self.domainValue.setObjectName("domainValue")
-        self.verticalLayout_4.addWidget(self.domainValue)
-        self.buttonAdd = QtWidgets.QPushButton(self.groupBox_4)
-        self.buttonAdd.setObjectName("buttonAdd")
-        self.verticalLayout_4.addWidget(self.buttonAdd)
-        self.buttonEdit = QtWidgets.QPushButton(self.groupBox_4)
-        self.buttonEdit.setObjectName("buttonEdit")
-        self.verticalLayout_4.addWidget(self.buttonEdit)
-        self.buttonDelete = QtWidgets.QPushButton(self.groupBox_4)
-        self.buttonDelete.setObjectName("buttonDelete")
-        self.verticalLayout_4.addWidget(self.buttonDelete)
+class DialogDomainAdd(QDialog):
+    def __init__(self, parent=None):
+        QWidget.__init__(self, parent)
+        self.ui = Ui_dialog()
+        self.ui.setupUi(self)
 
-        self.retranslateUi(dialog)
-        self.buttonBox.accepted.connect(dialog.accept)
-        self.buttonBox.rejected.connect(dialog.reject)
-        QtCore.QMetaObject.connectSlotsByName(dialog)
+        self.ui.buttonAdd.clicked.connect(self.click_buttonAdd)
+        self.ui.buttonEdit.clicked.connect(self.click_buttonEdit)
+        self.ui.buttonDelete.clicked.connect(self.click_buttonDelete)
 
-    def retranslateUi(self, dialog):
-        _translate = QtCore.QCoreApplication.translate
-        dialog.setWindowTitle(_translate("dialog", "Добавление домена"))
-        self.groupBox.setTitle(_translate("dialog", "Имя домена"))
-        self.groupBox_2.setTitle(_translate("dialog", "Тип домена"))
-        self.domainType.setItemText(0, _translate("dialog", "Строковый"))
-        self.domainType.setItemText(1, _translate("dialog", "Целочисленный"))
-        self.domainType.setItemText(2, _translate("dialog", "Вещественный"))
-        self.groupBox_3.setTitle(_translate("dialog", "Список допустимых значений"))
-        self.groupBox_4.setTitle(_translate("dialog", "Допустимое значение"))
-        self.buttonAdd.setText(_translate("dialog", "Добавить"))
-        self.buttonEdit.setText(_translate("dialog", "Редактировать"))
-        self.buttonDelete.setText(_translate("dialog", "Удалить"))
+    def click_buttonAdd(self):
+        value = self.ui.domainValue.text()
+        self.ui.domainList.addItem(value)
+        self.ui.domainValue.setText('')
+
+    def click_buttonEdit(self):
+        edit_item = self.ui.domainList.currentItem().text()
+        items = [str(self.ui.domainList.item(i).text()) for i in range(self.ui.domainList.count())]
+        new_value = self.ui.domainValue.text()
+        self.ui.domainList.clear()
+        for item in items:
+            if edit_item == item:
+                self.ui.domainList.addItem(new_value)
+            else:
+                self.ui.domainList.addItem(item)
+        self.ui.domainValue.clear()
+
+    def click_buttonDelete(self):
+        delete_item = self.ui.domainList.currentItem().text()
+        items = [str(self.ui.domainList.item(i).text()) for i in range(self.ui.domainList.count())]
+        self.ui.domainList.clear()
+        for item in items:
+            if delete_item == item:
+                continue
+            else:
+                self.ui.domainList.addItem(item)
+        self.ui.domainValue.clear()
+
+    def get_values(self, domain_type):
+        values = []
+        for i in range(self.ui.domainList.count()):
+            if domain_type == 'Строковый':
+                values.append(str(self.ui.domainList.item(i).text()))
+            elif domain_type == 'Целочисленный':
+                values.append(int(self.ui.domainList.item(i).text()))
+            else:
+                values.append(float(self.ui.domainList.item(i).text()))
+        return values
+
+    def gather_domain(self):
+        name = self.ui.domainName.text()
+        domain_type = self.ui.domainType.currentText()
+        values = self.get_values(domain_type)
+        return (name, values, domain_type)
+
+
+#import sys
+#app = QApplication(sys.argv)
+#myapp = DialogDomainAdd()
+#myapp.show()
+#sys.exit(app.exec_())

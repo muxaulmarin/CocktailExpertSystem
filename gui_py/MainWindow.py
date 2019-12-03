@@ -1,9 +1,19 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'MainWindow.ui'
+#
+# Created by: PyQt5 UI code generator 5.13.0
+#
+# WARNING! All changes made in this file will be lost!
+
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(640, 480)
+        MainWindow.resize(640, 512)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
@@ -29,6 +39,9 @@ class Ui_MainWindow(object):
         self.pushButton_3 = QtWidgets.QPushButton(self.groupBox)
         self.pushButton_3.setObjectName("pushButton_3")
         self.verticalLayout.addWidget(self.pushButton_3)
+        self.test_button = QtWidgets.QPushButton(self.centralwidget)
+        self.test_button.setGeometry(QtCore.QRect(400, 430, 75, 23))
+        self.test_button.setObjectName("test_button")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 640, 21))
@@ -88,6 +101,7 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "Добавить"))
         self.pushButton_2.setText(_translate("MainWindow", "Редактировать"))
         self.pushButton_3.setText(_translate("MainWindow", "Удалить"))
+        self.test_button.setText(_translate("MainWindow", "test"))
         self.menuFile.setTitle(_translate("MainWindow", "Файл"))
         self.menuKnowledge.setTitle(_translate("MainWindow", "Знания"))
         self.menuRecommendation.setTitle(_translate("MainWindow", "Рекомендация"))
