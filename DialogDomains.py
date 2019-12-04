@@ -1,6 +1,6 @@
 from gui_py.DialogDomain import Ui_Dialog
 from DialogDomainAdd import DialogDomainAdd
-from PyQt5.QtWidgets import QDialog, QWidget, QApplication, QTableWidgetItem
+from PyQt5.QtWidgets import QDialog, QWidget, QTableWidgetItem
 from knowledge import Knowledge
 
 class DialogDomains(QDialog):
@@ -20,7 +20,7 @@ class DialogDomains(QDialog):
         if ui.exec_() == QDialog.Accepted:
             self.knowledge.addDomain(ui.gather_domain())
             self.update_table()
-            print(self.knowledge.domains)
+            print(self.knowledge['domains'])
 
     def click_buttonEdit(self):
         n, name, values, domain_type  = self.gather_row()
@@ -35,12 +35,12 @@ class DialogDomains(QDialog):
             self.update_table()
 
     def update_table(self):
-        n_rows = len(self.knowledge.domains)
+        n_rows = len(self.knowledge['domains'])
         self.ui.tableWidget.setRowCount(n_rows)
-        for n, num in enumerate(self.knowledge.domains):
-            name = self.knowledge.domains[num]['name']
-            values = self.knowledge.domains[num]['values']
-            domain_type = self.knowledge.domains[num]['type']
+        for n, num in enumerate(self.knowledge['domains']):
+            name = self.knowledge['domains'][num]['name']
+            values = self.knowledge['domains'][num]['values']
+            domain_type = self.knowledge['domains'][num]['type']
             self.ui.tableWidget.setItem(n, 0, QTableWidgetItem(str(num)))
             self.ui.tableWidget.setItem(n, 1, QTableWidgetItem(name))
             self.ui.tableWidget.setItem(n, 2, QTableWidgetItem(domain_type))
@@ -70,5 +70,5 @@ class DialogDomains(QDialog):
         for cell in row:
             if cell.column() == 0:
                 n = int(cell.text())
-        del self.knowledge.domains[n]
+        del self.knowledge['domains'][n]
         self.update_table()

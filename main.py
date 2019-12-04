@@ -5,8 +5,13 @@ from gui_py.MainWindow import MainWindow
 
 from DialogDomains import DialogDomains
 from DialogVariables import DialogVariables
+from DialogSaveAs import DialogSaveAs
+from DialogOpen import DialogOpen
 
 from knowledge import Knowledge
+
+import os
+import json
 
 class Expert_System(QMainWindow):
     def __init__(self, parent=None):
@@ -21,7 +26,7 @@ class Expert_System(QMainWindow):
         self.ui.actionOpen.triggered.connect(self.showDialogOpen)
         self.ui.actionSave.triggered.connect(self.showDialogSaveAs)
         
-        self.ui.actionDomains.triggered.connect(self.showDialogDomains)
+        self.ui.actionDomains.triggered.connect(self.showDialogDomains) #FULL
         self.ui.actionVariables.triggered.connect(self.showDialogVariables)
         self.ui.actionViewOntology.triggered.connect(self.showDialogOntologyView)
 
@@ -34,16 +39,27 @@ class Expert_System(QMainWindow):
         self.ui.test_button.clicked.connect(self.TEST)
 
     def TEST(self):
-        print(self.knowledge.domains)
+        print(self.knowledge)
 
     def showDialogNew(self):
-        pass
+        self.knowledge = Knowledge()
 
     def showDialogOpen(self):
-        pass
+        Window_DialogOpen = DialogOpen()
+        if Window_DialogOpen.exec_() == QDialog.Accepted:
+            folder = Window_DialogOpen.ui.folder.text()
+            file_name = Window_DialogOpen.ui.file_name.text() + '.json'
+            with open(os.path.join(folder, file_name), 'r') as json_file:
+                json_file = json.load(json_file)
+                self.knowledge.loadKnowledge(json_file)
 
     def showDialogSaveAs(self):
-        pass
+        Window_DialogSaveAs = DialogSaveAs()
+        if Window_DialogSaveAs.exec_() == QDialog.Accepted:
+            folder = Window_DialogSaveAs.ui.folder.text()
+            file_name = Window_DialogSaveAs.ui.file_name.text() + '.json'
+            with open(os.path.join(folder, file_name), 'w') as json_file:
+                json.dump(self.knowledge, json_file)
 
     def showDialogExit(self):
         pass
@@ -51,7 +67,7 @@ class Expert_System(QMainWindow):
     def showDialogDomains(self):
         Window_DialogDomains = DialogDomains()
         if Window_DialogDomains.exec_() == QDialog.Accepted:
-            self.knowledge.mergeDomain(Window_DialogDomains.knowledge.domains)
+            self.knowledge.mergeDomain(Window_DialogDomains.knowledge['domains'])
 
     def showDialogVariables(self):
         Window_DialogVariables = DialogVariables()
