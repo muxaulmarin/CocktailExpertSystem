@@ -55,10 +55,3 @@ class DialogDomainAdd(QDialog):
         domain_type = self.ui.domainType.currentText()
         values = self.get_values(domain_type)
         return (name, values, domain_type)
-
-
-#import sys
-#app = QApplication(sys.argv)
-#myapp = DialogDomainAdd()
-#myapp.show()
-#sys.exit(app.exec_())
