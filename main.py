@@ -71,6 +71,8 @@ class Expert_System(QMainWindow):
 
     def showDialogVariables(self):
         Window_DialogVariables = DialogVariables()
+        Window_DialogVariables.knowledge['variables'] = self.knowledge['variables']
+        
         if Window_DialogVariables.exec_() == QDialog.Accepted:
             print(1)
         else:

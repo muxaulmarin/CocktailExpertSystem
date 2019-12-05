@@ -58,6 +58,7 @@ class Ui_Dialog(object):
         self.buttonBox.accepted.connect(dialog.accept)
         self.buttonBox.rejected.connect(dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(dialog)
+        
 
     def retranslateUi(self, dialog):
         _translate = QtCore.QCoreApplication.translate
