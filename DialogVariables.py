@@ -12,13 +12,20 @@ class DialogVariables(QDialog):
         self.knowledge = Knowledge()
 
         self.ui.buttonAdd.clicked.connect(self.showDialogVariableAdd)
+        self.ui.testButton.clicked.connect(self.click_buttonTest)
 
     def showDialogVariableAdd(self):
         Window_DialogVariableAdd = DialogDomainAdd()
+        Window_DialogVariableAdd.knowledge = self.knowledge
+        Window_DialogVariableAdd.addDomainsToComboBox()
+
         if Window_DialogVariableAdd.exec_() == QDialog.Accepted:
             print(1)
         else:
             print(0)
+
+    def click_buttonTest(self):
+        print(self.knowledge)
 
 if __name__ == '__main__':
     import sys

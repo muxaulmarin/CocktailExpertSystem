@@ -1,4 +1,14 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'DialogVariableAdd.ui'
+#
+# Created by: PyQt5 UI code generator 5.13.0
+#
+# WARNING! All changes made in this file will be lost!
+
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -17,9 +27,9 @@ class Ui_Dialog(object):
         self.Domains = QtWidgets.QComboBox(self.groupBox)
         self.Domains.setObjectName("Domains")
         self.verticalLayout.addWidget(self.Domains)
-        self.DomainsList = QtWidgets.QListView(self.groupBox)
-        self.DomainsList.setObjectName("DomainsList")
-        self.verticalLayout.addWidget(self.DomainsList)
+        self.listWidget = QtWidgets.QListWidget(self.groupBox)
+        self.listWidget.setObjectName("listWidget")
+        self.verticalLayout.addWidget(self.listWidget)
         self.pushButton = QtWidgets.QPushButton(self.groupBox)
         self.pushButton.setObjectName("pushButton")
         self.verticalLayout.addWidget(self.pushButton)
@@ -53,12 +63,15 @@ class Ui_Dialog(object):
         self.VarName = QtWidgets.QLineEdit(self.groupBox_4)
         self.VarName.setObjectName("VarName")
         self.verticalLayout_4.addWidget(self.VarName)
+        self.testButton = QtWidgets.QPushButton(Dialog)
+        self.testButton.setGeometry(QtCore.QRect(130, 490, 75, 23))
+        self.testButton.setObjectName("testButton")
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
         self.buttonBox.rejected.connect(Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
-
+		
         for var_type in ['Строковый', 'Целочисленный', 'Вещественный', 'Булевый']:
             self.VarType.addItem(var_type)
 
@@ -74,3 +87,4 @@ class Ui_Dialog(object):
         self.groupBox_2.setTitle(_translate("Dialog", "Тип переменной"))
         self.groupBox_3.setTitle(_translate("Dialog", "Вид переменной"))
         self.groupBox_4.setTitle(_translate("Dialog", "Имя переменной"))
+        self.testButton.setText(_translate("Dialog", "TEST"))
