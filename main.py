@@ -52,6 +52,7 @@ class Expert_System(QMainWindow):
             with open(os.path.join(folder, file_name), 'r') as json_file:
                 json_file = json.load(json_file)
                 self.knowledge.loadKnowledge(json_file)
+        self.setWindowTitle('Coctail Expert System - ' + Window_DialogOpen.ui.file_name.text())
 
     def showDialogSaveAs(self):
         Window_DialogSaveAs = DialogSaveAs()
