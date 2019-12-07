@@ -12,6 +12,7 @@ from knowledge import Knowledge
 
 import os
 import json
+import pickle
 
 class Expert_System(QMainWindow):
     def __init__(self, parent=None):
@@ -38,41 +39,55 @@ class Expert_System(QMainWindow):
 
         self.ui.test_button.clicked.connect(self.TEST)
 
+        self.setWindowTitle('Coctail Expert System - Untitled' )
+
     def TEST(self):
         print(self.knowledge)
 
     def showDialogNew(self):
         self.knowledge = Knowledge()
+        self.setWindowTitle('Coctail Expert System - Untitled' )
 
     def showDialogOpen(self):
         Window_DialogOpen = DialogOpen()
         if Window_DialogOpen.exec_() == QDialog.Accepted:
             folder = Window_DialogOpen.ui.folder.text()
-            file_name = Window_DialogOpen.ui.file_name.text() + '.json'
-            with open(os.path.join(folder, file_name), 'r') as json_file:
-                json_file = json.load(json_file)
-                self.knowledge.loadKnowledge(json_file)
+            file_name = Window_DialogOpen.ui.file_name.text()
+            with open(os.path.join(folder, file_name), 'rb') as pyobj:
+                self.knowledge.loadKnowledge(pickle.load(pyobj))
         self.setWindowTitle('Coctail Expert System - ' + Window_DialogOpen.ui.file_name.text())
 
     def showDialogSaveAs(self):
         Window_DialogSaveAs = DialogSaveAs()
         if Window_DialogSaveAs.exec_() == QDialog.Accepted:
             folder = Window_DialogSaveAs.ui.folder.text()
-            file_name = Window_DialogSaveAs.ui.file_name.text() + '.json'
-            with open(os.path.join(folder, file_name), 'w') as json_file:
-                json.dump(self.knowledge, json_file)
+            file_name = Window_DialogSaveAs.ui.file_name.text()
+            with open(os.path.join(folder, file_name), 'wb') as pyobj:
+                domains = self.knowledge['domains']
+                variables = self['variables']
+                nodes = self['nodes']
+                edges= self['edges']
+                labels = self['labels']
+                pickle.dump({'domains': domains, 
+                             'variables': variables, 
+                             'nodes': nodes, 
+                             'edges': edges, 
+                             'labels': labels}, pyobj, protocol=pickle.HIGHEST_PROTOCOL)
 
     def showDialogExit(self):
         pass
 
     def showDialogDomains(self):
         Window_DialogDomains = DialogDomains()
+        Window_DialogDomains.knowledge = self.knowledge
+        Window_DialogDomains.update_table()
         if Window_DialogDomains.exec_() == QDialog.Accepted:
             self.knowledge.mergeDomain(Window_DialogDomains.knowledge['domains'])
 
     def showDialogVariables(self):
         Window_DialogVariables = DialogVariables()
         Window_DialogVariables.knowledge = self.knowledge
+        Window_DialogVariables.RefreshView()
         if Window_DialogVariables.exec_() == QDialog.Accepted:
             print(1)
         else:

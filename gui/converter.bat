@@ -1,1 +1,1 @@
-C:\Users\79824\AppData\Local\Programs\Python\Python36\Scripts\pyuic5.exe DialogDomain_v3.ui -o DialogDomain_v3.py
+C:\Users\79824\AppData\Local\Programs\Python\Python36\Scripts\pyuic5.exe DialogVariables.ui -o DialogVariables.py

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>532</height>
+    <width>347</width>
+    <height>592</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>-20</x>
-     <y>480</y>
+     <x>-360</x>
+     <y>550</y>
      <width>621</width>
      <height>32</height>
     </rect>
@@ -32,10 +32,10 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>20</y>
-     <width>271</width>
-     <height>441</height>
+     <x>30</x>
+     <y>80</y>
+     <width>291</width>
+     <height>261</height>
     </rect>
    </property>
    <property name="title">
@@ -49,14 +49,14 @@
      <widget class="QListWidget" name="listWidget"/>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="buttonDelete">
       <property name="text">
-       <string>Убрать домен</string>
+       <string>Удалить домен</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="buttonEdit">
       <property name="text">
        <string>Редактировать домен</string>
       </property>
@@ -64,31 +64,13 @@
     </item>
    </layout>
   </widget>
-  <widget class="QGroupBox" name="groupBox_2">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>90</y>
-     <width>291</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Тип переменной</string>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
-    <item>
-     <widget class="QComboBox" name="VarType"/>
-    </item>
-   </layout>
-  </widget>
   <widget class="QGroupBox" name="groupBox_3">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>160</y>
+     <y>350</y>
      <width>291</width>
-     <height>301</height>
+     <height>191</height>
     </rect>
    </property>
    <property name="title">
@@ -99,7 +81,7 @@
      <widget class="QComboBox" name="VarCategory"/>
     </item>
     <item>
-     <widget class="QTextBrowser" name="TextQuestion"/>
+     <widget class="QTextEdit" name="textQuestion"/>
     </item>
    </layout>
   </widget>
@@ -107,7 +89,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>20</y>
+     <y>10</y>
      <width>291</width>
      <height>61</height>
     </rect>
@@ -120,19 +102,6 @@
      <widget class="QLineEdit" name="VarName"/>
     </item>
    </layout>
-  </widget>
-  <widget class="QPushButton" name="testButton">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>490</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>TEST</string>
-   </property>
   </widget>
  </widget>
  <resources/>

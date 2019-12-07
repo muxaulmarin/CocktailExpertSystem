@@ -18,7 +18,7 @@ class DialogDomains(QDialog):
         self.ui.buttonDelete.clicked.connect(self.click_buttonDelete)
 
         self.ui.tableWidget.setColumnWidth(0, 120)
-        self.ui.tableWidget.setColumnWidth(1, 273)
+        self.ui.tableWidget.setColumnWidth(1, 280)
         self.ui.tableWidget.setSelectionBehavior(self.ui.tableWidget.SelectRows)
 
     def click_buttonAdd(self):

@@ -15,3 +15,9 @@ class Knowledge(dict):
 
     def mergeDomain(self, domains):
         self['domains'].update(domains)
+
+    def loadKnowledge(self, dict_like):
+        for key_k in self:
+            for key_d in dict_like.keys():
+                if key_k == key_d:
+                    self[key_k] = dict_like[key_d]
