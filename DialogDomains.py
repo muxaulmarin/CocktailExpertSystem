@@ -18,7 +18,7 @@ class DialogDomains(QDialog):
         self.ui.buttonDelete.clicked.connect(self.click_buttonDelete)
 
         self.ui.tableWidget.setColumnWidth(0, 120)
-        self.ui.tableWidget.setColumnWidth(1, 280)
+        self.ui.tableWidget.setColumnWidth(1, 273)
         self.ui.tableWidget.setSelectionBehavior(self.ui.tableWidget.SelectRows)
 
     def click_buttonAdd(self):
@@ -49,6 +49,9 @@ class DialogDomains(QDialog):
             self.ui.tableWidget.setItem(n, 0, QTableWidgetItem(domain))
             values = ', '.join([str(v) for v in self.knowledge['domains'][domain]])
             self.ui.tableWidget.setItem(n, 1, QTableWidgetItem(values))
+        for n_row in range(self.ui.tableWidget.rowCount()):
+            for n_col in range(2):
+                self.ui.tableWidget.item(n_row, n_col).setFlags(Qt.ItemIsSelectable |  Qt.ItemIsEnabled)
 
     def gather_row(self):
         n = len(self.ui.tableWidget.selectedIndexes())
@@ -69,3 +72,11 @@ class DialogDomains(QDialog):
                 name = self.ui.tableWidget.item(idx.row(), 0).text()
             del self.knowledge['domains'][name]
             self.update_table()
+
+if __name__ == '__main__':
+    import sys
+
+    app = QApplication(sys.argv)
+    myapp = DialogDomains()
+    myapp.show()
+    sys.exit(app.exec_())
