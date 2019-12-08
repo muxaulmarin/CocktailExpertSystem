@@ -22,38 +22,39 @@ class DialogDomains(QDialog):
         self.ui.tableWidget.setSelectionBehavior(self.ui.tableWidget.SelectRows)
 
     def click_buttonAdd(self):
-        ui = DialogDomainAdd()
-        if ui.exec_() == QDialog.Accepted:
-            self.knowledge.addDomain(ui.gather_domain())
-            self.update_table()
+        Window_DialogDomainAdd = DialogDomainAdd()
+        Window_DialogDomainAdd.knowledge = self.knowledge
+        if Window_DialogDomainAdd.exec_() == QDialog.Accepted:
+            self.knowledge = Window_DialogDomainAdd.click_buttonOK()
+            self.RefreshView()
 
     def click_buttonEdit(self):
         n = len(self.ui.tableWidget.selectedIndexes())
         if n == 0:
             pass
         else:
-            name, values = self.gather_row()
-            ui = DialogDomainAdd()
+            name, values = self.gatherSelectedDomain()
+            Window_DialogDomainAdd = DialogDomainAdd()
+            Window_DialogDomainAdd.knowledge = self.knowledge
             for value in values:
-                ui.ui.domainList.addItem(str(value))
-            ui.ui.domainName.setText(name)
-            if ui.exec_() == QDialog.Accepted:
-                name, values = ui.gather_domain()
-                self.knowledge.editDomain(name, values)
-                self.update_table()
+                Window_DialogDomainAdd.ui.domainList.addItem(str(value))
+            Window_DialogDomainAdd.ui.domainName.setText(name)
+            if Window_DialogDomainAdd.exec_() == QDialog.Accepted:
+                self.knowledge = Window_DialogDomainAdd.click_buttonOK()
+                self.RefreshView()
 
-    def update_table(self):
+    def RefreshView(self):
         self.ui.tableWidget.setRowCount(0)
-        for n, domain in enumerate(self.knowledge['domains']):
+        for n, domain in enumerate(self.knowledge.domains):
             self.ui.tableWidget.insertRow(n)
             self.ui.tableWidget.setItem(n, 0, QTableWidgetItem(domain))
-            values = ', '.join([str(v) for v in self.knowledge['domains'][domain]])
+            values = ', '.join([str(v) for v in self.knowledge.domains[domain]])
             self.ui.tableWidget.setItem(n, 1, QTableWidgetItem(values))
         for n_row in range(self.ui.tableWidget.rowCount()):
             for n_col in range(2):
                 self.ui.tableWidget.item(n_row, n_col).setFlags(Qt.ItemIsSelectable |  Qt.ItemIsEnabled)
 
-    def gather_row(self):
+    def gatherSelectedDomain(self):
         n = len(self.ui.tableWidget.selectedIndexes())
         if n == 0:
             pass
@@ -70,8 +71,8 @@ class DialogDomains(QDialog):
         else:
             for idx in self.ui.tableWidget.selectedIndexes():
                 name = self.ui.tableWidget.item(idx.row(), 0).text()
-            del self.knowledge['domains'][name]
-            self.update_table()
+            del self.knowledge.domains[name]
+            self.RefreshView()
 
 if __name__ == '__main__':
     import sys

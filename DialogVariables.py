@@ -27,22 +27,21 @@ class DialogVariables(QDialog):
         Window_DialogVariableAdd.addDomainsToComboBox()
 
         if Window_DialogVariableAdd.exec_() == QDialog.Accepted:
-            print(1)
-        else:
-            print(0)
+            self.knowledge Window_DialogVariableAdd.click_buttonOK()
+            self.RefreshView()
 
     def RefreshView(self):
         self.ui.tableWidget.setRowCount(0)
-        for n, variable in enumerate(self.knowledge['variables']):
+        for n, variable in enumerate(self.knowledge.variables):
             self.ui.tableWidget.insertRow(n)
             self.ui.tableWidget.setItem(n, 0, QTableWidgetItem(variable))
-            category = self.knowledge['variables'][variable]['var_category']
+            category = self.knowledge.variables[variable]['category']
             self.ui.tableWidget.setItem(n, 1, QTableWidgetItem(category))
-            self.ui.tableWidget.setItem(n, 2, QTableWidgetItem('domain'))
+            domain = self.knowledge.variables[variable]['domain']
+            self.ui.tableWidget.setItem(n, 2, QTableWidgetItem(domain))
         for n_row in range(self.ui.tableWidget.rowCount()):
             for n_col in range(self.ui.tableWidget.columnCount()):
                 self.ui.tableWidget.item(n_row, n_col).setFlags(Qt.ItemIsSelectable |  Qt.ItemIsEnabled)
-
 
     def click_buttonTest(self):
         print(self.knowledge)

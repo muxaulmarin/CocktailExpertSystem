@@ -23,11 +23,14 @@ class Expert_System(QMainWindow):
 
         self.knowledge = Knowledge()
 
+        for i in range(1, 11):
+            self.knowledge.domains[str(i)] = [str(j) for j in range(i, i+5)]
+
         self.ui.actionNew.triggered.connect(self.showDialogNew)
         self.ui.actionOpen.triggered.connect(self.showDialogOpen)
         self.ui.actionSave.triggered.connect(self.showDialogSaveAs)
         
-        self.ui.actionDomains.triggered.connect(self.showDialogDomains) #FULL
+        self.ui.actionDomains.triggered.connect(self.showDialogDomains)
         self.ui.actionVariables.triggered.connect(self.showDialogVariables)
         self.ui.actionViewOntology.triggered.connect(self.showDialogOntologyView)
 
@@ -42,56 +45,52 @@ class Expert_System(QMainWindow):
         self.setWindowTitle('Coctail Expert System - Untitled' )
 
     def TEST(self):
-        print(self.knowledge)
+        print(f'Domains {self.knowledge.domains}', 
+        f'Variables {self.knowledge.variables}', 
+        sep='\n')
 
     def showDialogNew(self):
+        # Clearing Knowledge...
         self.knowledge = Knowledge()
         self.setWindowTitle('Coctail Expert System - Untitled' )
 
     def showDialogOpen(self):
+        # Work with pickled PyObjects
         Window_DialogOpen = DialogOpen()
         if Window_DialogOpen.exec_() == QDialog.Accepted:
             folder = Window_DialogOpen.ui.folder.text()
             file_name = Window_DialogOpen.ui.file_name.text()
             with open(os.path.join(folder, file_name), 'rb') as pyobj:
-                self.knowledge.loadKnowledge(pickle.load(pyobj))
+                self.knowledge = pickle.load(pyobj)
         self.setWindowTitle('Coctail Expert System - ' + Window_DialogOpen.ui.file_name.text())
 
     def showDialogSaveAs(self):
+        # Work with pickled PyObjects
         Window_DialogSaveAs = DialogSaveAs()
         if Window_DialogSaveAs.exec_() == QDialog.Accepted:
             folder = Window_DialogSaveAs.ui.folder.text()
-            file_name = Window_DialogSaveAs.ui.file_name.text()
+            file_name = Window_DialogSaveAs.ui.file_name.text() + '.obj'
             with open(os.path.join(folder, file_name), 'wb') as pyobj:
-                domains = self.knowledge['domains']
-                variables = self['variables']
-                nodes = self['nodes']
-                edges= self['edges']
-                labels = self['labels']
-                pickle.dump({'domains': domains, 
-                             'variables': variables, 
-                             'nodes': nodes, 
-                             'edges': edges, 
-                             'labels': labels}, pyobj, protocol=pickle.HIGHEST_PROTOCOL)
+                pickle.dump(self.knowledge, pyobj, protocol=pickle.HIGHEST_PROTOCOL)
 
     def showDialogExit(self):
         pass
 
     def showDialogDomains(self):
+        # Open Dialog Window for knowledge.domains
         Window_DialogDomains = DialogDomains()
         Window_DialogDomains.knowledge = self.knowledge
-        Window_DialogDomains.update_table()
+        Window_DialogDomains.RefreshView()
         if Window_DialogDomains.exec_() == QDialog.Accepted:
-            self.knowledge.mergeDomain(Window_DialogDomains.knowledge['domains'])
+            # Rewriting knowledge
+            self.knowledge = Window_DialogDomains.knowledge
 
     def showDialogVariables(self):
         Window_DialogVariables = DialogVariables()
         Window_DialogVariables.knowledge = self.knowledge
         Window_DialogVariables.RefreshView()
         if Window_DialogVariables.exec_() == QDialog.Accepted:
-            print(1)
-        else:
-            print(0)
+            self.knowledge = Window_DialogVariables.knowledge
 
     def showDialogOntologyView(self):
         pass

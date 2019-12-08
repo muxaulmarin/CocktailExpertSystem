@@ -1,5 +1,6 @@
 from gui_py.DialogDomainAdd_v2 import Ui_dialog
 from PyQt5.QtWidgets import QDialog, QWidget, QApplication
+from knowledge import Knowledge
 
 class DialogDomainAdd(QDialog):
     def __init__(self, parent=None):
@@ -8,6 +9,8 @@ class DialogDomainAdd(QDialog):
         self.ui.setupUi(self)
 
         self.ui.domainName.setPlaceholderText('Имя домена')
+
+        self.knowledge = Knowledge()
 
         self.ui.buttonAdd.clicked.connect(self.click_buttonAdd)
         self.ui.buttonEdit.clicked.connect(self.click_buttonEdit)
@@ -46,14 +49,11 @@ class DialogDomainAdd(QDialog):
                 self.ui.domainList.addItem(item)
         self.ui.domainValue.clear()
 
-    def get_values(self):
-        values = [str(self.ui.domainList.item(i).text()) for i in range(self.ui.domainList.count())]
-        return values
-
-    def gather_domain(self):
+    def click_buttonOK(self):
         name = self.ui.domainName.text()
-        values = self.get_values()
-        return name, values
+        values = [str(self.ui.domainList.item(i).text()) for i in range(self.ui.domainList.count())]
+        self.knowledge.domains[name] = values
+        return self.knowledge
 
 if __name__ == '__main__':
     import sys

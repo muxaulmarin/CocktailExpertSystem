@@ -49,13 +49,6 @@
      <widget class="QListWidget" name="listWidget"/>
     </item>
     <item>
-     <widget class="QPushButton" name="buttonDelete">
-      <property name="text">
-       <string>Удалить домен</string>
-      </property>
-     </widget>
-    </item>
-    <item>
      <widget class="QPushButton" name="buttonEdit">
       <property name="text">
        <string>Редактировать домен</string>

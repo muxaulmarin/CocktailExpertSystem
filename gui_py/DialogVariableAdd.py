@@ -30,9 +30,6 @@ class Ui_Dialog(object):
         self.listWidget = QtWidgets.QListWidget(self.groupBox)
         self.listWidget.setObjectName("listWidget")
         self.verticalLayout.addWidget(self.listWidget)
-        self.buttonDelete = QtWidgets.QPushButton(self.groupBox)
-        self.buttonDelete.setObjectName("buttonDelete")
-        self.verticalLayout.addWidget(self.buttonDelete)
         self.buttonEdit = QtWidgets.QPushButton(self.groupBox)
         self.buttonEdit.setObjectName("buttonEdit")
         self.verticalLayout.addWidget(self.buttonEdit)
@@ -56,6 +53,8 @@ class Ui_Dialog(object):
         self.VarName.setObjectName("VarName")
         self.verticalLayout_4.addWidget(self.VarName)
 
+        self.VarCategory.addItems(['Выводимая', 'Запрашиваемая', 'Выводимо-запрашиваемая'])
+
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
         self.buttonBox.rejected.connect(Dialog.reject)
@@ -65,7 +64,6 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Добавление переменной"))
         self.groupBox.setTitle(_translate("Dialog", "Домен"))
-        self.buttonDelete.setText(_translate("Dialog", "Удалить домен"))
         self.buttonEdit.setText(_translate("Dialog", "Редактировать домен"))
         self.groupBox_3.setTitle(_translate("Dialog", "Вид переменной"))
         self.groupBox_4.setTitle(_translate("Dialog", "Имя переменной"))
