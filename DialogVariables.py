@@ -52,8 +52,11 @@ class DialogVariables(QDialog):
         sep='\n')
 
     def RefreshQuestionDomainBoxes(self):
-        if self.ui.tableWidget.currentIndex().row() == -1:
+        condition_1 = self.ui.tableWidget.currentIndex().row() == -1
+        condition_2 = len(self.ui.tableWidget.selectedIndexes()) == 0
+        if condition_1 or condition_2:
             self.ui.Question.clear()
+            self.ui.domainValues.clear()
         else:
             name = self.ui.tableWidget.item(self.ui.tableWidget.currentIndex().row(), 0).text()
             self.ui.Question.setText(self.knowledge.variables[name]['question'])
@@ -63,7 +66,7 @@ class DialogVariables(QDialog):
             self.previous_select = self.ui.tableWidget.currentRow()
 
     def click_buttonDelete(self):
-        pass
+        print(self.ui.tableWidget.selectedIndexes())
 
 if __name__ == '__main__':
     import sys
