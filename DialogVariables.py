@@ -20,9 +20,9 @@ class DialogVariables(QDialog):
 
         self.ui.buttonAdd.clicked.connect(self.showDialogVariableAdd)
         self.ui.testButton.clicked.connect(self.click_buttonTest)
-        self.ui.tableWidget.itemSelectionChanged.connect(self.RefreshQuestionDomainBoxes)
         self.ui.buttonDelete.clicked.connect(self.click_buttonDelete)
-
+        
+        self.ui.tableWidget.itemSelectionChanged.connect(self.RefreshQuestionDomainBoxes)
 
     def showDialogVariableAdd(self):
         Window_DialogVariableAdd = DialogVariableAdd()
@@ -47,7 +47,9 @@ class DialogVariables(QDialog):
                 self.ui.tableWidget.item(n_row, n_col).setFlags(Qt.ItemIsSelectable |  Qt.ItemIsEnabled)
 
     def click_buttonTest(self):
-        print(self.knowledge)
+        print(f'Domains {self.knowledge.domains}', 
+        f'Variables {self.knowledge.variables}', 
+        sep='\n')
 
     def RefreshQuestionDomainBoxes(self):
         if self.ui.tableWidget.currentIndex().row() == -1:
@@ -61,7 +63,7 @@ class DialogVariables(QDialog):
             self.previous_select = self.ui.tableWidget.currentRow()
 
     def click_buttonDelete(self):
-        print(self.ui.tableWidget.curr)
+        pass
 
 if __name__ == '__main__':
     import sys
