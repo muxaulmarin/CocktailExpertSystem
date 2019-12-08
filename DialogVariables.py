@@ -20,6 +20,9 @@ class DialogVariables(QDialog):
 
         self.ui.buttonAdd.clicked.connect(self.showDialogVariableAdd)
         self.ui.testButton.clicked.connect(self.click_buttonTest)
+        self.ui.tableWidget.itemSelectionChanged.connect(self.RefreshQuestionDomainBoxes)
+        self.ui.buttonDelete.clicked.connect(self.click_buttonDelete)
+
 
     def showDialogVariableAdd(self):
         Window_DialogVariableAdd = DialogVariableAdd()
@@ -27,7 +30,7 @@ class DialogVariables(QDialog):
         Window_DialogVariableAdd.addDomainsToComboBox()
 
         if Window_DialogVariableAdd.exec_() == QDialog.Accepted:
-            self.knowledge Window_DialogVariableAdd.click_buttonOK()
+            self.knowledge = Window_DialogVariableAdd.click_buttonOK()
             self.RefreshView()
 
     def RefreshView(self):
@@ -46,6 +49,19 @@ class DialogVariables(QDialog):
     def click_buttonTest(self):
         print(self.knowledge)
 
+    def RefreshQuestionDomainBoxes(self):
+        if self.ui.tableWidget.currentIndex().row() == -1:
+            self.ui.Question.clear()
+        else:
+            name = self.ui.tableWidget.item(self.ui.tableWidget.currentIndex().row(), 0).text()
+            self.ui.Question.setText(self.knowledge.variables[name]['question'])
+            domain = self.knowledge.variables[name]['domain']
+            values = self.knowledge.domains[domain]
+            self.ui.domainValues.addItems(values)
+            self.previous_select = self.ui.tableWidget.currentRow()
+
+    def click_buttonDelete(self):
+        print(self.ui.tableWidget.curr)
 
 if __name__ == '__main__':
     import sys
