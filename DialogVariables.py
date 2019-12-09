@@ -21,6 +21,7 @@ class DialogVariables(QDialog):
         self.ui.buttonAdd.clicked.connect(self.showDialogVariableAdd)
         self.ui.testButton.clicked.connect(self.click_buttonTest)
         self.ui.buttonDelete.clicked.connect(self.click_buttonDelete)
+        self.ui.buttonEdit.clicked.connect(self.click_buttonEdit)
         
         self.ui.tableWidget.itemSelectionChanged.connect(self.RefreshQuestionDomainBoxes)
 
@@ -66,7 +67,44 @@ class DialogVariables(QDialog):
             self.previous_select = self.ui.tableWidget.currentRow()
 
     def click_buttonDelete(self):
-        print(self.ui.tableWidget.selectedIndexes())
+        if len(self.ui.tableWidget.selectedIndexes()) == 0:
+            pass
+        else:
+            idx = self.ui.tableWidget.selectedIndexes()[0]
+            var_name = self.ui.tableWidget.item(idx, 0).text()
+            del self.knowledge.variables[var_name]
+            self.RefreshView()
+
+    def click_buttonEdit(self):
+        if len(self.ui.tableWidget.selectedIndexes()) == 0:
+            pass
+        else:
+            idx = self.ui.tableWidget.selectedIndexes()[0].row()
+            var_name = self.ui.tableWidget.item(idx, 0).text()
+            category = self.ui.tableWidget.item(idx, 1).text()
+            domain = self.ui.tableWidget.item(idx, 2).text()
+            Window_DialogVariableAdd = DialogVariableAdd()
+            Window_DialogVariableAdd.knowledge = self.knowledge
+            Window_DialogVariableAdd.addDomainsToComboBox()
+
+            Window_DialogVariableAdd.ui.VarName.setText(var_name)
+
+            idx_combo = Window_DialogVariableAdd.ui.VarCategory.findText(category)
+            Window_DialogVariableAdd.ui.VarCategory.setCurrentIndex(idx_combo)
+
+            idx_domain = Window_DialogVariableAdd.ui.Domains.findText(domain)
+            Window_DialogVariableAdd.ui.Domains.setCurrentIndex(idx_domain)
+
+            if category != 'Выводимая':
+                question = self.knowledge.variables[var_name]['question']
+                Window_DialogVariableAdd.ui.textQuestion.setText(question)
+
+            if Window_DialogVariableAdd.exec_() == QDialog.Accepted:
+                del Window_DialogVariableAdd.knowledge.variables[var_name]
+                self.knowledge = Window_DialogVariableAdd.click_buttonOK()
+                self.RefreshView()
+
+
 
 if __name__ == '__main__':
     import sys
