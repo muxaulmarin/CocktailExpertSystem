@@ -7,6 +7,7 @@ from DialogDomains import DialogDomains
 from DialogVariables import DialogVariables
 from DialogSaveAs import DialogSaveAs
 from DialogOpen import DialogOpen
+from DialogFacts import DialogFacts
 
 from knowledge import Knowledge
 
@@ -33,6 +34,7 @@ class Expert_System(QMainWindow):
         self.ui.actionDomains.triggered.connect(self.showDialogDomains)
         self.ui.actionVariables.triggered.connect(self.showDialogVariables)
         self.ui.actionViewOntology.triggered.connect(self.showDialogOntologyView)
+        self.ui.actionFacts.triggered.connect(self.showDialogFacts)
 
         self.ui.actionStart.triggered.connect(self.showDialogRecommendation)
 
@@ -77,12 +79,10 @@ class Expert_System(QMainWindow):
         pass
 
     def showDialogDomains(self):
-        # Open Dialog Window for knowledge.domains
         Window_DialogDomains = DialogDomains()
         Window_DialogDomains.knowledge = self.knowledge
         Window_DialogDomains.RefreshView()
         if Window_DialogDomains.exec_() == QDialog.Accepted:
-            # Rewriting knowledge
             self.knowledge = Window_DialogDomains.knowledge
 
     def showDialogVariables(self):
@@ -91,6 +91,13 @@ class Expert_System(QMainWindow):
         Window_DialogVariables.RefreshView()
         if Window_DialogVariables.exec_() == QDialog.Accepted:
             self.knowledge = Window_DialogVariables.knowledge
+
+    def showDialogFacts(self):
+        Window_DialogFacts = DialogFacts()
+        Window_DialogFacts.knowledge = self.knowledge
+        Window_DialogFacts.RefreshVariables()
+        if Window_DialogFacts.exec_() == QDialog.Accepted:
+            self.knowledge = Window_DialogFacts.knowledge
 
     def showDialogOntologyView(self):
         pass
