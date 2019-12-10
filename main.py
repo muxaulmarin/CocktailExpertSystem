@@ -14,6 +14,7 @@ from knowledge import Knowledge
 import os
 import json
 import pickle
+import random
 
 class Expert_System(QMainWindow):
     def __init__(self, parent=None):
@@ -26,6 +27,17 @@ class Expert_System(QMainWindow):
 
         for i in range(1, 11):
             self.knowledge.domains[str(i)] = [str(j) for j in range(i, i+5)]
+
+        for i in range(1, 11):
+            self.knowledge.variables[str(i)] = {'domain': str(i), 
+                                                'category': 'Запрашиваемая', 
+                                                'question': '?' * i}
+
+        for i in range(1, 11):
+            self.knowledge.facts[i] = {'variable': str(i), 
+                                       'condition': '==', 
+                                       'value': self.knowledge.domains[str(i)][random.randint(0, 4)]}
+
 
         self.ui.actionNew.triggered.connect(self.showDialogNew)
         self.ui.actionOpen.triggered.connect(self.showDialogOpen)
@@ -96,6 +108,7 @@ class Expert_System(QMainWindow):
         Window_DialogFacts = DialogFacts()
         Window_DialogFacts.knowledge = self.knowledge
         Window_DialogFacts.RefreshVariables()
+        Window_DialogFacts.RefreshView()
         if Window_DialogFacts.exec_() == QDialog.Accepted:
             self.knowledge = Window_DialogFacts.knowledge
 

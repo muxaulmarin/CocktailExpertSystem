@@ -21,6 +21,7 @@ class DialogFacts(QDialog):
         self.ui.buttonEdit.clicked.connect(self.click_buttonEdit)
         self.ui.buttonDelete.clicked.connect(self.click_buttonDelete)
 
+
     def RefreshVariables(self):
         self.ui.variables.addItems(self.knowledge.variables.keys())
 
