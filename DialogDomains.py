@@ -1,6 +1,6 @@
 from gui_py.DialogDomain import Ui_Dialog
 from DialogDomainAdd import DialogDomainAdd
-from PyQt5.QtWidgets import QDialog, QWidget, QTableWidgetItem, QApplication, QTableView
+from PyQt5.QtWidgets import QDialog, QWidget, QTableWidgetItem, QApplication, QTableView, QAbstractItemView
 from PyQt5.QtGui import QStandardItem
 from PyQt5.QtCore import Qt
 from knowledge import Knowledge
@@ -20,6 +20,7 @@ class DialogDomains(QDialog):
         self.ui.tableWidget.setColumnWidth(0, 120)
         self.ui.tableWidget.setColumnWidth(1, 280)
         self.ui.tableWidget.setSelectionBehavior(self.ui.tableWidget.SelectRows)
+        self.ui.tableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
 
     def click_buttonAdd(self):
         Window_DialogDomainAdd = DialogDomainAdd()

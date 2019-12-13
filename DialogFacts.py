@@ -1,5 +1,5 @@
 from gui_py.DialogFacts import Ui_Dialog
-from PyQt5.QtWidgets import QDialog, QWidget, QApplication, QTableWidgetItem
+from PyQt5.QtWidgets import QDialog, QWidget, QApplication, QTableWidgetItem, QAbstractItemView
 from PyQt5.QtCore import Qt
 from knowledge import Knowledge
 
@@ -15,6 +15,7 @@ class DialogFacts(QDialog):
         self.ui.tableWidget.setColumnWidth(1, 60)
         self.ui.tableWidget.setColumnWidth(2, 135)
         self.ui.tableWidget.setSelectionBehavior(self.ui.tableWidget.SelectRows)
+        self.ui.tableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
 
         self.ui.variables.currentTextChanged.connect(self.RefreshValues)
         self.ui.buttonAdd.clicked.connect(self.click_buttonAdd)

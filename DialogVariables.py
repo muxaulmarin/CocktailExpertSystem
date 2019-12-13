@@ -1,6 +1,6 @@
 from gui_py.DialogVariables import Ui_Dialog
 from DialogVariableAdd import DialogVariableAdd
-from PyQt5.QtWidgets import QDialog, QWidget, QApplication, QTableWidgetItem
+from PyQt5.QtWidgets import QDialog, QWidget, QApplication, QTableWidgetItem, QAbstractItemView
 from PyQt5.QtCore import Qt
 
 from knowledge import Knowledge
@@ -17,6 +17,7 @@ class DialogVariables(QDialog):
         self.ui.tableWidget.setColumnWidth(1, 120)
         self.ui.tableWidget.setColumnWidth(2, 190)
         self.ui.tableWidget.setSelectionBehavior(self.ui.tableWidget.SelectRows)
+        self.ui.tableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
 
         self.ui.buttonAdd.clicked.connect(self.showDialogVariableAdd)
         self.ui.testButton.clicked.connect(self.click_buttonTest)
