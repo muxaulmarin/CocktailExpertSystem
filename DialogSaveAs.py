@@ -7,4 +7,4 @@ class DialogSaveAs(QDialog):
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         self.ui.folder.setText('D:\Learning\AI_Chuprina\CocktailExpertSystem')
-        self.ui.file_name.setText('temporal_domains')
+        self.ui.file_name.setText('COCTAILS')
