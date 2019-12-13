@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QTableWidgetItem, QApplication, QDialog, QMainWindow, QWidget
+from PyQt5.QtWidgets import QTableWidgetItem, QApplication, QDialog, QMainWindow, QWidget, QFileDialog
 
 from gui_py.MainWindow import MainWindow
 
@@ -49,9 +49,10 @@ class Expert_System(QMainWindow):
         self.ui.test_button.clicked.connect(self.TEST)
 
     def TEST(self):
-        print(f'Domains {self.knowledge.domains}', 
-        f'Variables {self.knowledge.variables}', 
-        f'Rules {self.knowledge.rules}',
+        print('', '' ,
+        self.knowledge.domains, 
+        self.knowledge.variables, 
+        self.knowledge.rules,
         sep='\n')
 
     def showDialogNew(self):
@@ -60,23 +61,38 @@ class Expert_System(QMainWindow):
         self.setWindowTitle('Coctail Expert System - Untitled' )
 
     def showDialogOpen(self):
-        # Work with pickled PyObjects
-        Window_DialogOpen = DialogOpen()
-        if Window_DialogOpen.exec_() == QDialog.Accepted:
-            folder = Window_DialogOpen.ui.folder.text()
-            file_name = Window_DialogOpen.ui.file_name.text() + '.obj'
-            with open(os.path.join(folder, file_name), 'rb') as pyobj:
-                self.knowledge = pickle.load(pyobj)
-        self.setWindowTitle('Coctail Expert System - ' + Window_DialogOpen.ui.file_name.text())
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)", options=options)
+        if fileName:
+            with open(fileName, 'rb') as pkl:
+                knowledge_dict = pickle.load(pkl)
+                self.knowledge.domains = knowledge_dict['domains']
+                self.knowledge.variables = knowledge_dict['variables']
+                self.knowledge.facts = knowledge_dict['facts']
+                self.knowledge.rules = knowledge_dict['rules']
 
     def showDialogSaveAs(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","All Files (*);;Text Files (*.txt)", options=options)
+        if fileName:
+            knowledge_dict = {'domains': self.knowledge.domains, 
+                              'variables': self.knowledge.variables, 
+                              'facts': self.knowledge.facts, 
+                              'rules': self.knowledge.rules}
+
+            with open(fileName, 'wb') as pkl:
+                pickle.dump(knowledge_dict, pkl, protocol=pickle.HIGHEST_PROTOCOL)
+
+
         # Work with pickled PyObjects
-        Window_DialogSaveAs = DialogSaveAs()
-        if Window_DialogSaveAs.exec_() == QDialog.Accepted:
-            folder = Window_DialogSaveAs.ui.folder.text()
-            file_name = Window_DialogSaveAs.ui.file_name.text() + '.obj'
-            with open(os.path.join(folder, file_name), 'wb') as pyobj:
-                pickle.dump(self.knowledge, pyobj, protocol=pickle.HIGHEST_PROTOCOL)
+        #Window_DialogSaveAs = DialogSaveAs()
+        #if Window_DialogSaveAs.exec_() == QDialog.Accepted:
+        #    folder = Window_DialogSaveAs.ui.folder.text()
+        #    file_name = Window_DialogSaveAs.ui.file_name.text() + '.obj'
+        #    with open(os.path.join(folder, file_name), 'wb') as pyobj:
+        #        pickle.dump(self.knowledge, pyobj, protocol=pickle.HIGHEST_PROTOCOL)
 
     def showDialogExit(self):
         pass
