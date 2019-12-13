@@ -8,6 +8,7 @@ from DialogVariables import DialogVariables
 from DialogSaveAs import DialogSaveAs
 from DialogOpen import DialogOpen
 from DialogFacts import DialogFacts
+from DialogRuleAdd import DialogRuleAdd
 
 from knowledge import Knowledge
 
@@ -15,6 +16,9 @@ import os
 import json
 import pickle
 import random
+
+from matplotlib import pyplot as plt
+import cv2
 
 class Expert_System(QMainWindow):
     def __init__(self, parent=None):
@@ -24,20 +28,6 @@ class Expert_System(QMainWindow):
         self.ui.setupUi(self)
 
         self.knowledge = Knowledge()
-
-        for i in range(1, 11):
-            self.knowledge.domains[str(i)] = [str(j) for j in range(i, i+5)]
-
-        for i in range(1, 11):
-            self.knowledge.variables[str(i)] = {'domain': str(i), 
-                                                'category': 'Запрашиваемая', 
-                                                'question': '?' * i}
-
-        for i in range(1, 11):
-            self.knowledge.facts[i] = {'variable': str(i), 
-                                       'condition': '==', 
-                                       'value': self.knowledge.domains[str(i)][random.randint(0, 4)]}
-
 
         self.ui.actionNew.triggered.connect(self.showDialogNew)
         self.ui.actionOpen.triggered.connect(self.showDialogOpen)
@@ -52,15 +42,16 @@ class Expert_System(QMainWindow):
 
         self.ui.actionSolution.triggered.connect(self.showDialogSolution)
 
-        self.ui.pushButton.clicked.connect(self.showDialogAddRule)
+        self.ui.buttonAdd.clicked.connect(self.showDialogAddRule)
+        self.ui.buttonEdit.clicked.connect(self.showDialogEditRule)
+        self.ui.buttonDelete.clicked.connect(self.click_buttonDelete)
 
         self.ui.test_button.clicked.connect(self.TEST)
-
-        self.setWindowTitle('Coctail Expert System - Untitled' )
 
     def TEST(self):
         print(f'Domains {self.knowledge.domains}', 
         f'Variables {self.knowledge.variables}', 
+        f'Rules {self.knowledge.rules}',
         sep='\n')
 
     def showDialogNew(self):
@@ -73,7 +64,7 @@ class Expert_System(QMainWindow):
         Window_DialogOpen = DialogOpen()
         if Window_DialogOpen.exec_() == QDialog.Accepted:
             folder = Window_DialogOpen.ui.folder.text()
-            file_name = Window_DialogOpen.ui.file_name.text()
+            file_name = Window_DialogOpen.ui.file_name.text() + '.obj'
             with open(os.path.join(folder, file_name), 'rb') as pyobj:
                 self.knowledge = pickle.load(pyobj)
         self.setWindowTitle('Coctail Expert System - ' + Window_DialogOpen.ui.file_name.text())
@@ -113,7 +104,9 @@ class Expert_System(QMainWindow):
             self.knowledge = Window_DialogFacts.knowledge
 
     def showDialogOntologyView(self):
-        pass
+        image = cv2.imread(r"D:\Learning\AI_Chuprina\CocktailExpertSystem\Ontology.png")
+        plt.imshow(image)
+        plt.show()
 
     def showDialogRecommendation(self):
         pass
@@ -122,7 +115,53 @@ class Expert_System(QMainWindow):
         pass
 
     def showDialogAddRule(self):
-        pass
+        Window_DialogRuleAdd = DialogRuleAdd()
+        Window_DialogRuleAdd.knowledge = self.knowledge
+        Window_DialogRuleAdd.RefreshComboBoxFacts()
+        if Window_DialogRuleAdd.exec_() == QDialog.Accepted:
+            Window_DialogRuleAdd.click_buttonOK()
+            self.knowledge = Window_DialogRuleAdd.knowledge
+            self.ui.Rules.clear()
+            for N in self.knowledge.rules:
+                rule = self.knowledge.rules[N]['condition']
+                result = self.knowledge.rules[N]['result']
+                self.ui.Rules.addItem('IF ' + rule + ' THEN ' + result)
+
+    def showDialogEditRule(self):
+        Window_DialogRuleAdd = DialogRuleAdd()
+        Window_DialogRuleAdd.knowledge = self.knowledge
+        Window_DialogRuleAdd.RefreshComboBoxFacts()
+        N = self.get_N()
+        Window_DialogRuleAdd.edit = self.ui.Rules.currentRow() + 1
+        for condition in self.knowledge.rules[N]['conditions set']:
+            Window_DialogRuleAdd.ui.fullCondition.addItem(condition)
+        Window_DialogRuleAdd.ui.result.setText(self.knowledge.rules[N]['result'])
+
+        if Window_DialogRuleAdd.exec_() == QDialog.Accepted:
+            Window_DialogRuleAdd.click_buttonOK()
+            self.knowledge = Window_DialogRuleAdd.knowledge
+            self.ui.Rules.clear()
+            for R in self.knowledge.rules:
+                rule = self.knowledge.rules[R]['condition']
+                result = self.knowledge.rules[R]['result']
+                self.ui.Rules.addItem('IF ' + rule + ' THEN ' + result)
+
+    def get_N(self):
+        fullRule = self.ui.Rules.currentItem().text()
+        for N in self.knowledge.rules:
+            joined_conditions = 'IF ' + ' '.join(self.knowledge.rules[N]) + ' THEN ' + self.knowledge.rules[N]['result']
+            if fullRule == joined_conditions:
+                break
+        return N
+
+    def click_buttonDelete(self):
+        N = self.ui.Rules.currentRow() + 1
+        del self.knowledge.rules[N]
+        self.ui.Rules.clear()
+        for R in self.knowledge.rules:
+            rule = self.knowledge.rules[R]['condition']
+            result = self.knowledge.rules[R]['result']
+            self.ui.Rules.addItem('IF ' + rule + ' THEN ' + result)
 
 if __name__ == '__main__':
     import sys

@@ -15,6 +15,7 @@ class DialogDomainAdd(QDialog):
         self.ui.buttonAdd.clicked.connect(self.click_buttonAdd)
         self.ui.buttonEdit.clicked.connect(self.click_buttonEdit)
         self.ui.buttonDelete.clicked.connect(self.click_buttonDelete)
+        self.ui.domainName.setFocus()
 
     def click_buttonAdd(self):
         if self.ui.domainValue.text() == '':
