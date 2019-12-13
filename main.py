@@ -1,5 +1,7 @@
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QTableWidgetItem, QApplication, QDialog, QMainWindow, QWidget, QFileDialog
+from PyQt5.QtWidgets import (QTableWidgetItem, QApplication, QDialog, 
+                             QMainWindow, QWidget, QFileDialog, 
+                             QMessageBox)
 
 from gui_py.MainWindow import MainWindow
 
@@ -56,9 +58,13 @@ class Expert_System(QMainWindow):
         sep='\n')
 
     def showDialogNew(self):
-        # Clearing Knowledge...
-        self.knowledge = Knowledge()
-        self.setWindowTitle('Coctail Expert System - Untitled' )
+        qm = QMessageBox()
+        ret = qm.question(self,'', "Вы уверены?", qm.Yes | qm.No)
+        if ret == qm.Yes:
+            self.knowledge = Knowledge()
+            self.setWindowTitle('Coctail Expert System - Untitled' )
+        else:
+            pass
 
     def showDialogOpen(self):
         options = QFileDialog.Options()
@@ -71,6 +77,7 @@ class Expert_System(QMainWindow):
                 self.knowledge.variables = knowledge_dict['variables']
                 self.knowledge.facts = knowledge_dict['facts']
                 self.knowledge.rules = knowledge_dict['rules']
+        self.setWindowTitle('Coctail Expert System - ' + fileName.split('/')[-1])
 
     def showDialogSaveAs(self):
         options = QFileDialog.Options()
@@ -84,15 +91,6 @@ class Expert_System(QMainWindow):
 
             with open(fileName, 'wb') as pkl:
                 pickle.dump(knowledge_dict, pkl, protocol=pickle.HIGHEST_PROTOCOL)
-
-
-        # Work with pickled PyObjects
-        #Window_DialogSaveAs = DialogSaveAs()
-        #if Window_DialogSaveAs.exec_() == QDialog.Accepted:
-        #    folder = Window_DialogSaveAs.ui.folder.text()
-        #    file_name = Window_DialogSaveAs.ui.file_name.text() + '.obj'
-        #    with open(os.path.join(folder, file_name), 'wb') as pyobj:
-        #        pickle.dump(self.knowledge, pyobj, protocol=pickle.HIGHEST_PROTOCOL)
 
     def showDialogExit(self):
         pass
