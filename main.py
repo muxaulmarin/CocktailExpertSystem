@@ -11,6 +11,7 @@ from DialogSaveAs import DialogSaveAs
 from DialogOpen import DialogOpen
 from DialogFacts import DialogFacts
 from DialogRuleAdd import DialogRuleAdd
+from DialogSVG import WindowSVG
 
 from knowledge import Knowledge
 
@@ -18,9 +19,6 @@ import os
 import json
 import pickle
 import random
-
-from matplotlib import pyplot as plt
-import cv2
 
 class Expert_System(QMainWindow):
     def __init__(self, parent=None):
@@ -118,9 +116,12 @@ class Expert_System(QMainWindow):
             self.knowledge = Window_DialogFacts.knowledge
 
     def showDialogOntologyView(self):
-        image = cv2.imread(r"D:\Learning\AI_Chuprina\CocktailExpertSystem\Ontology.png")
-        plt.imshow(image)
-        plt.show()
+        Window_SVG = WindowSVG()
+        if Window_SVG.exec_() == QDialog.Accepted:
+            pass
+        else:
+            pass
+
 
     def showDialogRecommendation(self):
         pass
@@ -160,14 +161,6 @@ class Expert_System(QMainWindow):
                 result = self.knowledge.rules[R]['result']
                 self.ui.Rules.addItem('IF ' + rule + ' THEN ' + result)
 
-    def get_N(self):
-        fullRule = self.ui.Rules.currentItem().text()
-        for N in self.knowledge.rules:
-            joined_conditions = 'IF ' + ' '.join(self.knowledge.rules[N]) + ' THEN ' + self.knowledge.rules[N]['result']
-            if fullRule == joined_conditions:
-                break
-        return N
-
     def click_buttonDelete(self):
         N = self.ui.Rules.currentRow() + 1
         del self.knowledge.rules[N]
@@ -176,6 +169,14 @@ class Expert_System(QMainWindow):
             rule = self.knowledge.rules[R]['condition']
             result = self.knowledge.rules[R]['result']
             self.ui.Rules.addItem('IF ' + rule + ' THEN ' + result)
+
+    def get_N(self):
+        fullRule = self.ui.Rules.currentItem().text()
+        for N in self.knowledge.rules:
+            joined_conditions = 'IF ' + ' '.join(self.knowledge.rules[N]) + ' THEN ' + self.knowledge.rules[N]['result']
+            if fullRule == joined_conditions:
+                break
+        return N
 
 if __name__ == '__main__':
     import sys
