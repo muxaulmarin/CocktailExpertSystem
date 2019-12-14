@@ -50,6 +50,8 @@ class MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.actionOpen = QtWidgets.QAction(MainWindow)
         self.actionOpen.setObjectName("actionOpen")
+        self.actionSaveAs = QtWidgets.QAction(MainWindow)
+        self.actionSaveAs.setObjectName("actionSaveAs")
         self.actionSave = QtWidgets.QAction(MainWindow)
         self.actionSave.setObjectName("actionSave")
         self.actionNew = QtWidgets.QAction(MainWindow)
@@ -70,6 +72,7 @@ class MainWindow(object):
         self.actionSolution.setObjectName("actionSolution")
         self.menuFile.addAction(self.actionNew)
         self.menuFile.addAction(self.actionOpen)
+        self.menuFile.addAction(self.actionSaveAs)
         self.menuFile.addAction(self.actionSave)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionExit)
@@ -101,8 +104,12 @@ class MainWindow(object):
         self.menuSolution.setTitle(_translate("MainWindow", "Решение"))
         self.actionOpen.setText(_translate("MainWindow", "Открыть ..."))
         self.actionOpen.setShortcut(_translate("MainWindow", "Ctrl+O"))
-        self.actionSave.setText(_translate("MainWindow", "Сохранить как ..."))
+        self.actionSaveAs.setText(_translate("MainWindow", "Сохранить как ..."))
+
+        self.actionSave.setText(_translate("MainWindow", "Сохранить"))
         self.actionSave.setShortcut(_translate("MainWindow", "Ctrl+S"))
+
+
         self.actionNew.setText(_translate("MainWindow", "Создать ..."))
         self.actionNew.setShortcut(_translate("MainWindow", "Ctrl+N"))
         self.actionExit.setText(_translate("MainWindow", "Выход"))

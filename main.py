@@ -30,9 +30,12 @@ class Expert_System(QMainWindow):
 
         self.knowledge = Knowledge()
 
+        self.file = None
+
         self.ui.actionNew.triggered.connect(self.showDialogNew)
         self.ui.actionOpen.triggered.connect(self.showDialogOpen)
-        self.ui.actionSave.triggered.connect(self.showDialogSaveAs)
+        self.ui.actionSaveAs.triggered.connect(self.showDialogSaveAs)
+        self.ui.actionSave.triggered.connect(self.saveKnowledge)
         
         self.ui.actionDomains.triggered.connect(self.showDialogDomains)
         self.ui.actionVariables.triggered.connect(self.showDialogVariables)
@@ -69,7 +72,7 @@ class Expert_System(QMainWindow):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)", options=options)
-
+        self.file = fileName
         if fileName:
             with open(fileName, 'rb') as pkl:
                 knowledge_dict = pickle.load(pkl)
@@ -83,6 +86,16 @@ class Expert_System(QMainWindow):
             rule = self.knowledge.rules[N]['condition']
             result = self.knowledge.rules[N]['result']
             self.ui.Rules.addItem('IF ' + rule + ' THEN ' + result)
+
+    def saveKnowledge(self):
+        if self.file:
+            knowledge_dict = {'domains': self.knowledge.domains, 
+                              'variables': self.knowledge.variables, 
+                              'facts': self.knowledge.facts, 
+                              'rules': self.knowledge.rules}
+
+            with open(self.file, 'wb') as pkl:
+                pickle.dump(knowledge_dict, pkl, protocol=pickle.HIGHEST_PROTOCOL)
 
     def showDialogSaveAs(self):
         options = QFileDialog.Options()
