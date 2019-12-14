@@ -30,6 +30,7 @@ class DialogFacts(QDialog):
         var_name = self.ui.variables.currentText()
         domain = self.knowledge.variables[var_name]['domain']
         values = self.knowledge.domains[domain]
+        self.ui.values.clear()
         self.ui.values.addItems(values)
 
     def click_buttonAdd(self):
