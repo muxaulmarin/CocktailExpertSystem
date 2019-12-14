@@ -72,7 +72,7 @@ class DialogVariables(QDialog):
             pass
         else:
             idx = self.ui.tableWidget.selectedIndexes()[0]
-            var_name = self.ui.tableWidget.item(idx, 0).text()
+            var_name = self.ui.tableWidget.item(idx.row(), 0).text()
             del self.knowledge.variables[var_name]
             self.RefreshView()
 
