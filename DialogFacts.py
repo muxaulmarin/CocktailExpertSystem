@@ -21,8 +21,7 @@ class DialogFacts(QDialog):
         self.ui.buttonAdd.clicked.connect(self.click_buttonAdd)
         self.ui.buttonEdit.clicked.connect(self.click_buttonEdit)
         self.ui.buttonDelete.clicked.connect(self.click_buttonDelete)
-
-
+        
     def RefreshVariables(self):
         self.ui.variables.addItems(self.knowledge.variables.keys())
 
@@ -37,9 +36,10 @@ class DialogFacts(QDialog):
         var_name = self.ui.variables.currentText()
         condition = self.ui.condition.currentText()
         value = self.ui.values.currentText()
-        N = len(self.knowledge.facts) + 1
+        N = str(len(self.knowledge.facts) + 1)
         self.knowledge.facts[N] = {'variable': var_name, 'condition': condition, 'value': value}
         self.RefreshView()
+        print(len(self.knowledge.facts))
 
     def click_buttonEdit(self):
         if len(self.ui.tableWidget.selectedIndexes()) == 0:
@@ -90,6 +90,7 @@ class DialogFacts(QDialog):
         for n_row in range(self.ui.tableWidget.rowCount()):
             for n_col in range(3):
                 self.ui.tableWidget.item(n_row, n_col).setFlags(Qt.ItemIsSelectable |  Qt.ItemIsEnabled)
+        self.ui.tableWidget.resizeRowsToContents()
 
 
 if __name__ == '__main__':
@@ -99,4 +100,3 @@ if __name__ == '__main__':
     myapp = DialogFacts()
     myapp.show()
     sys.exit(app.exec_())
-

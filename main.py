@@ -12,6 +12,7 @@ from DialogOpen import DialogOpen
 from DialogFacts import DialogFacts
 from DialogRuleAdd import DialogRuleAdd
 from DialogSVG import WindowSVG
+from DialogRecommendation import DialogRecommendation
 
 from knowledge import Knowledge
 
@@ -68,6 +69,7 @@ class Expert_System(QMainWindow):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)", options=options)
+
         if fileName:
             with open(fileName, 'rb') as pkl:
                 knowledge_dict = pickle.load(pkl)
@@ -76,6 +78,11 @@ class Expert_System(QMainWindow):
                 self.knowledge.facts = knowledge_dict['facts']
                 self.knowledge.rules = knowledge_dict['rules']
         self.setWindowTitle('Coctail Expert System - ' + fileName.split('/')[-1])
+        self.ui.Rules.clear()
+        for N in self.knowledge.rules:
+            rule = self.knowledge.rules[N]['condition']
+            result = self.knowledge.rules[N]['result']
+            self.ui.Rules.addItem('IF ' + rule + ' THEN ' + result)
 
     def showDialogSaveAs(self):
         options = QFileDialog.Options()
@@ -122,9 +129,12 @@ class Expert_System(QMainWindow):
         else:
             pass
 
-
     def showDialogRecommendation(self):
-        pass
+        Window_DialogRecommendation = DialogRecommendation()
+        Window_DialogRecommendation.knowledge = self.knowledge
+        Window_DialogRecommendation.extractQuestionAnsAnswers()
+        Window_DialogRecommendation.exec_()
+        print(Window_DialogRecommendation.questions)
 
     def showDialogSolution(self):
         pass

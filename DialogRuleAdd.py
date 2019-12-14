@@ -15,6 +15,9 @@ class DialogRuleAdd(QDialog):
         self.ui.buttonEdit.clicked.connect(self.click_buttonEdit)
         self.ui.buttonDelete.clicked.connect(self.click_buttonDelete)
 
+        self.ui.Facts.view().setFixedWidth(300)
+
+
     def click_buttonAdd(self):
         if self.ui.radioButtonFact.isChecked():
             self.ui.fullCondition.addItem(self.ui.Facts.currentText())
@@ -28,9 +31,12 @@ class DialogRuleAdd(QDialog):
             pass
 
     def RefreshComboBoxFacts(self):
+        listOfstrings = []
         for fact in self.knowledge.facts:
             row = ' '.join(self.knowledge.facts[fact].values())
+            listOfstrings.append(row)
             self.ui.Facts.addItem(row)
+        
 
     def click_buttonOK(self):
         rule = {'condition': [], 'conditions set': []}

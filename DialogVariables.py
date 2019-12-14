@@ -47,6 +47,7 @@ class DialogVariables(QDialog):
         for n_row in range(self.ui.tableWidget.rowCount()):
             for n_col in range(self.ui.tableWidget.columnCount()):
                 self.ui.tableWidget.item(n_row, n_col).setFlags(Qt.ItemIsSelectable |  Qt.ItemIsEnabled)
+        self.ui.tableWidget.resizeRowsToContents()
 
     def click_buttonTest(self):
         print(f'Domains {self.knowledge.domains}', 
@@ -60,6 +61,8 @@ class DialogVariables(QDialog):
             self.ui.Question.clear()
             self.ui.domainValues.clear()
         else:
+            self.ui.Question.clear()
+            self.ui.domainValues.clear()
             name = self.ui.tableWidget.item(self.ui.tableWidget.currentIndex().row(), 0).text()
             self.ui.Question.setText(self.knowledge.variables[name]['question'])
             domain = self.knowledge.variables[name]['domain']

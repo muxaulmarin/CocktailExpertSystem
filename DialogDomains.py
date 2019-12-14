@@ -54,6 +54,7 @@ class DialogDomains(QDialog):
         for n_row in range(self.ui.tableWidget.rowCount()):
             for n_col in range(2):
                 self.ui.tableWidget.item(n_row, n_col).setFlags(Qt.ItemIsSelectable |  Qt.ItemIsEnabled)
+        self.ui.tableWidget.resizeRowsToContents()
 
     def gatherSelectedDomain(self):
         n = len(self.ui.tableWidget.selectedIndexes())
