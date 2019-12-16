@@ -145,7 +145,6 @@ class Expert_System(QMainWindow):
     def showDialogRecommendation(self):
         Window_DialogRecommendation = DialogRecommendation()
         Window_DialogRecommendation.knowledge = self.knowledge
-        Window_DialogRecommendation.extractQuestionAnsAnswers()
         Window_DialogRecommendation.exec_()
         print(Window_DialogRecommendation.questions)
 

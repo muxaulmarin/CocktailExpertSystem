@@ -69,6 +69,7 @@ class DialogRecommendation(QDialog):
         self.give_question(*self.get_question_answers())
 
     def click_Start(self):
+        self.extractQuestionAnsAnswers()
         self.ui.pushButton.setText('Принять ответ')
         self.give_question(*self.get_question_answers())
 
