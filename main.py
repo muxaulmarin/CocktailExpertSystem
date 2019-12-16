@@ -159,10 +159,7 @@ class Expert_System(QMainWindow):
             Window_DialogRuleAdd.click_buttonOK()
             self.knowledge = Window_DialogRuleAdd.knowledge
             self.ui.Rules.clear()
-            for num, R in enumerate(self.knowledge.rules):
-                rule = self.knowledge.rules[R]['condition']
-                result = self.knowledge.rules[R]['result']
-                self.ui.Rules.addItem(f'{num} -- IF ' + rule + ' THEN ' + result)
+            self.RefreshRules()
 
     def showDialogEditRule(self):
         if len(self.ui.Rules.selectedIndexes()) == 0:
@@ -171,8 +168,8 @@ class Expert_System(QMainWindow):
             Window_DialogRuleAdd = DialogRuleAdd()
             Window_DialogRuleAdd.knowledge = self.knowledge
             Window_DialogRuleAdd.RefreshComboBoxFacts()
-            N = self.get_N()
-            Window_DialogRuleAdd.edit = self.ui.Rules.currentRow() + 1
+            N = self.find_key()
+            Window_DialogRuleAdd.edit = N
             for condition in self.knowledge.rules[N]['conditions set']:
                 Window_DialogRuleAdd.ui.fullCondition.addItem(condition)
             Window_DialogRuleAdd.ui.result.setText(self.knowledge.rules[N]['result'])
@@ -181,22 +178,15 @@ class Expert_System(QMainWindow):
                 Window_DialogRuleAdd.click_buttonOK()
                 self.knowledge = Window_DialogRuleAdd.knowledge
                 self.ui.Rules.clear()
-                for num, R in enumerate(self.knowledge.rules):
-                    rule = self.knowledge.rules[R]['condition']
-                    result = self.knowledge.rules[R]['result']
-                    self.ui.Rules.addItem(f'{num} -- IF ' + rule + ' THEN ' + result)
+                self.RefreshRules()
 
     def click_buttonDelete(self):
         if len(self.ui.Rules.selectedIndexes()) == 0:
             pass
         else:
-            N = str(self.ui.Rules.currentRow() + 1)
-            del self.knowledge.rules[N]
+            del self.knowledge.rules[self.find_key()]
             self.ui.Rules.clear()
-            for num, R in enumerate(self.knowledge.rules):
-                rule = self.knowledge.rules[R]['condition']
-                result = self.knowledge.rules[R]['result']
-                self.ui.Rules.addItem(f'{num} -- IF ' + rule + ' THEN ' + result)
+            self.RefreshRules()
 
     def get_N(self):
         if len(self.ui.Rules.selectedIndexes()) == 0:
@@ -208,6 +198,22 @@ class Expert_System(QMainWindow):
                 if fullRule == joined_conditions:
                     break
             return N
+
+    def RefreshRules(self):
+        for num, R in enumerate(self.knowledge.rules):
+            rule = self.knowledge.rules[R]['condition']
+            result = self.knowledge.rules[R]['result']
+            self.ui.Rules.addItem(f'{num} -- IF ' + rule + ' THEN ' + result)
+
+    def find_key(self):
+        selected_row = self.ui.Rules.currentItem().text()
+        for key in self.knowledge.rules:
+            rule = self.knowledge.rules[key]['condition']
+            result = self.knowledge.rules[key]['result']
+            current_row = 'IF ' + rule + ' THEN ' + result
+            if selected_row.endswith(current_row):
+                break
+        return key
 
 if __name__ == '__main__':
     import sys
