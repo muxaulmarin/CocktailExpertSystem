@@ -46,7 +46,7 @@ class DialogRuleAdd(QDialog):
         rule['condition'] = ' '.join(rule['condition'])
         rule['result'] = self.ui.result.text()
         if self.edit == None:
-            self.knowledge.rules[len(self.knowledge.rules) + 1] = rule
+            self.knowledge.rules[str(len(self.knowledge.rules) + 1)] = rule
         else:
             self.knowledge.rules[self.edit] = rule
 

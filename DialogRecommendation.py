@@ -1,4 +1,5 @@
 from gui_py.DialogRecommendation import Ui_Dialog
+from END import End
 
 from PyQt5.QtWidgets import QDialog, QWidget, QApplication, QTableWidgetItem, QAbstractItemView
 from PyQt5.QtCore import Qt
@@ -52,7 +53,8 @@ class DialogRecommendation(QDialog):
         question, answers = self.get_question_answers()
         if question == 0 and answers == 0:
             self.ui.label.setText('END')
-            self.ui.tableWidget.clear()
+            self.ui.tableWidget.setRowCount(0)
+            self.End()
         else:
             self.ui.label.setText(question)
             self.ui.tableWidget.setRowCount(0)
@@ -63,15 +65,22 @@ class DialogRecommendation(QDialog):
                 self.ui.tableWidget.item(n_row, 0).setFlags(Qt.ItemIsSelectable |  Qt.ItemIsEnabled)
             self.ui.tableWidget.resizeRowsToContents()
 
-    def RefreshView(self):
-        pass
-
     def click_Answer(self):
         self.give_question(*self.get_question_answers())
 
     def click_Start(self):
         self.ui.pushButton.setText('Принять ответ')
         self.give_question(*self.get_question_answers())
+
+    def End(self):
+        Window_End = End()
+        Window_End.ui.label.setText('Ваш коктейль \n Моча бомжа')
+        if Window_End.exec_() == QDialog.Accepted:
+            self.ui.pushButton.setText('Начать!')
+            self.ui.tableWidget.setRowCount(0)
+            self.ui.label.setText(' ')
+        else:
+            pass
 
 
 if __name__ == '__main__':
