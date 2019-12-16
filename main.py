@@ -82,10 +82,10 @@ class Expert_System(QMainWindow):
                 self.knowledge.rules = knowledge_dict['rules']
         self.setWindowTitle('Coctail Expert System - ' + fileName.split('/')[-1])
         self.ui.Rules.clear()
-        for N in self.knowledge.rules:
+        for num, N in enumerate(self.knowledge.rules):
             rule = self.knowledge.rules[N]['condition']
             result = self.knowledge.rules[N]['result']
-            self.ui.Rules.addItem('IF ' + rule + ' THEN ' + result)
+            self.ui.Rules.addItem(f'{num} -- IF ' + rule + ' THEN ' + result)
 
     def saveKnowledge(self):
         if self.file:
@@ -159,9 +159,9 @@ class Expert_System(QMainWindow):
             Window_DialogRuleAdd.click_buttonOK()
             self.knowledge = Window_DialogRuleAdd.knowledge
             self.ui.Rules.clear()
-            for num, N in enumerate(self.knowledge.rules):
-                rule = self.knowledge.rules[N]['condition']
-                result = self.knowledge.rules[N]['result']
+            for num, R in enumerate(self.knowledge.rules):
+                rule = self.knowledge.rules[R]['condition']
+                result = self.knowledge.rules[R]['result']
                 self.ui.Rules.addItem(f'{num} -- IF ' + rule + ' THEN ' + result)
 
     def showDialogEditRule(self):
@@ -181,10 +181,10 @@ class Expert_System(QMainWindow):
                 Window_DialogRuleAdd.click_buttonOK()
                 self.knowledge = Window_DialogRuleAdd.knowledge
                 self.ui.Rules.clear()
-                for R in self.knowledge.rules:
+                for num, R in enumerate(self.knowledge.rules):
                     rule = self.knowledge.rules[R]['condition']
                     result = self.knowledge.rules[R]['result']
-                    self.ui.Rules.addItem('IF ' + rule + ' THEN ' + result)
+                    self.ui.Rules.addItem(f'{num} -- IF ' + rule + ' THEN ' + result)
 
     def click_buttonDelete(self):
         if len(self.ui.Rules.selectedIndexes()) == 0:
@@ -193,10 +193,10 @@ class Expert_System(QMainWindow):
             N = str(self.ui.Rules.currentRow() + 1)
             del self.knowledge.rules[N]
             self.ui.Rules.clear()
-            for R in self.knowledge.rules:
+            for num, R in enumerate(self.knowledge.rules):
                 rule = self.knowledge.rules[R]['condition']
                 result = self.knowledge.rules[R]['result']
-                self.ui.Rules.addItem('IF ' + rule + ' THEN ' + result)
+                self.ui.Rules.addItem(f'{num} -- IF ' + rule + ' THEN ' + result)
 
     def get_N(self):
         if len(self.ui.Rules.selectedIndexes()) == 0:
