@@ -190,7 +190,7 @@ class Expert_System(QMainWindow):
         if len(self.ui.Rules.selectedIndexes()) == 0:
             pass
         else:
-            N = self.ui.Rules.currentRow() + 1
+            N = str(self.ui.Rules.currentRow() + 1)
             del self.knowledge.rules[N]
             self.ui.Rules.clear()
             for R in self.knowledge.rules:
