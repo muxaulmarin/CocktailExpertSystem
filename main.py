@@ -159,10 +159,10 @@ class Expert_System(QMainWindow):
             Window_DialogRuleAdd.click_buttonOK()
             self.knowledge = Window_DialogRuleAdd.knowledge
             self.ui.Rules.clear()
-            for N in self.knowledge.rules:
+            for num, N in enumerate(self.knowledge.rules):
                 rule = self.knowledge.rules[N]['condition']
                 result = self.knowledge.rules[N]['result']
-                self.ui.Rules.addItem('IF ' + rule + ' THEN ' + result)
+                self.ui.Rules.addItem(f'{num} -- IF ' + rule + ' THEN ' + result)
 
     def showDialogEditRule(self):
         if len(self.ui.Rules.selectedIndexes()) == 0:
