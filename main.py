@@ -165,40 +165,49 @@ class Expert_System(QMainWindow):
                 self.ui.Rules.addItem('IF ' + rule + ' THEN ' + result)
 
     def showDialogEditRule(self):
-        Window_DialogRuleAdd = DialogRuleAdd()
-        Window_DialogRuleAdd.knowledge = self.knowledge
-        Window_DialogRuleAdd.RefreshComboBoxFacts()
-        N = self.get_N()
-        Window_DialogRuleAdd.edit = self.ui.Rules.currentRow() + 1
-        for condition in self.knowledge.rules[N]['conditions set']:
-            Window_DialogRuleAdd.ui.fullCondition.addItem(condition)
-        Window_DialogRuleAdd.ui.result.setText(self.knowledge.rules[N]['result'])
+        if len(self.ui.Rules.selectedIndexes()) == 0:
+            pass
+        else:
+            Window_DialogRuleAdd = DialogRuleAdd()
+            Window_DialogRuleAdd.knowledge = self.knowledge
+            Window_DialogRuleAdd.RefreshComboBoxFacts()
+            N = self.get_N()
+            Window_DialogRuleAdd.edit = self.ui.Rules.currentRow() + 1
+            for condition in self.knowledge.rules[N]['conditions set']:
+                Window_DialogRuleAdd.ui.fullCondition.addItem(condition)
+            Window_DialogRuleAdd.ui.result.setText(self.knowledge.rules[N]['result'])
 
-        if Window_DialogRuleAdd.exec_() == QDialog.Accepted:
-            Window_DialogRuleAdd.click_buttonOK()
-            self.knowledge = Window_DialogRuleAdd.knowledge
+            if Window_DialogRuleAdd.exec_() == QDialog.Accepted:
+                Window_DialogRuleAdd.click_buttonOK()
+                self.knowledge = Window_DialogRuleAdd.knowledge
+                self.ui.Rules.clear()
+                for R in self.knowledge.rules:
+                    rule = self.knowledge.rules[R]['condition']
+                    result = self.knowledge.rules[R]['result']
+                    self.ui.Rules.addItem('IF ' + rule + ' THEN ' + result)
+
+    def click_buttonDelete(self):
+        if len(self.ui.Rules.selectedIndexes()) == 0:
+            pass
+        else:
+            N = self.ui.Rules.currentRow() + 1
+            del self.knowledge.rules[N]
             self.ui.Rules.clear()
             for R in self.knowledge.rules:
                 rule = self.knowledge.rules[R]['condition']
                 result = self.knowledge.rules[R]['result']
                 self.ui.Rules.addItem('IF ' + rule + ' THEN ' + result)
 
-    def click_buttonDelete(self):
-        N = self.ui.Rules.currentRow() + 1
-        del self.knowledge.rules[N]
-        self.ui.Rules.clear()
-        for R in self.knowledge.rules:
-            rule = self.knowledge.rules[R]['condition']
-            result = self.knowledge.rules[R]['result']
-            self.ui.Rules.addItem('IF ' + rule + ' THEN ' + result)
-
     def get_N(self):
-        fullRule = self.ui.Rules.currentItem().text()
-        for N in self.knowledge.rules:
-            joined_conditions = 'IF ' + ' '.join(self.knowledge.rules[N]) + ' THEN ' + self.knowledge.rules[N]['result']
-            if fullRule == joined_conditions:
-                break
-        return N
+        if len(self.ui.Rules.selectedIndexes()) == 0:
+            pass
+        else:
+            fullRule = self.ui.Rules.currentItem().text()
+            for N in self.knowledge.rules:
+                joined_conditions = 'IF ' + ' '.join(self.knowledge.rules[N]) + ' THEN ' + self.knowledge.rules[N]['result']
+                if fullRule == joined_conditions:
+                    break
+            return N
 
 if __name__ == '__main__':
     import sys
