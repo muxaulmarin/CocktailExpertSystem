@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import (QTableWidgetItem, QApplication, QDialog, 
                              QMainWindow, QWidget, QFileDialog, 
-                             QMessageBox)
+                             QMessageBox, QAbstractItemView)
 
 from gui_py.MainWindow import MainWindow
 
@@ -49,6 +49,8 @@ class Expert_System(QMainWindow):
         self.ui.buttonAdd.clicked.connect(self.showDialogAddRule)
         self.ui.buttonEdit.clicked.connect(self.showDialogEditRule)
         self.ui.buttonDelete.clicked.connect(self.click_buttonDelete)
+
+        self.ui.Rules.setDragDropMode(QAbstractItemView.InternalMove)
 
         self.ui.test_button.clicked.connect(self.TEST)
 
