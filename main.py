@@ -13,6 +13,7 @@ from DialogFacts import DialogFacts
 from DialogRuleAdd import DialogRuleAdd
 from DialogSVG import WindowSVG
 from DialogRecommendation import DialogRecommendation
+from DialogGoal import DialogGoal
 
 from knowledge import Knowledge
 
@@ -31,6 +32,7 @@ class Expert_System(QMainWindow):
         self.knowledge = Knowledge()
 
         self.file = None
+        self.goal = None
 
         self.ui.actionNew.triggered.connect(self.showDialogNew)
         self.ui.actionOpen.triggered.connect(self.showDialogOpen)
@@ -43,6 +45,7 @@ class Expert_System(QMainWindow):
         self.ui.actionFacts.triggered.connect(self.showDialogFacts)
 
         self.ui.actionStart.triggered.connect(self.showDialogRecommendation)
+        self.ui.action.triggered.connect(self.showDialogGoal)
 
         self.ui.actionSolution.triggered.connect(self.showDialogSolution)
 
@@ -59,6 +62,7 @@ class Expert_System(QMainWindow):
         self.knowledge.domains, 
         self.knowledge.variables, 
         self.knowledge.rules,
+        self.goal,
         sep='\n')
 
     def showDialogNew(self):
@@ -149,6 +153,13 @@ class Expert_System(QMainWindow):
         Window_DialogRecommendation.knowledge = self.knowledge
         Window_DialogRecommendation.exec_()
         print(Window_DialogRecommendation.questions)
+
+    def showDialogGoal(self):
+        Window_DialogGoal = DialogGoal()
+        Window_DialogGoal.knowledge = self.knowledge
+        Window_DialogGoal.RefreshComboBox()
+        if Window_DialogGoal.exec_() == QDialog.Accepted:
+            self.goal = Window_DialogGoal.click_buttonOK()
 
     def showDialogSolution(self):
         pass
