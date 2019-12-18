@@ -1,1 +1,1 @@
-C:\Users\79824\AppData\Local\Programs\Python\Python36\Scripts\pyuic5.exe End.ui -o End.py
+C:\Users\79824\AppData\Local\Programs\Python\Python36\Scripts\pyuic5.exe MainWindow.ui -o MainWindow.py

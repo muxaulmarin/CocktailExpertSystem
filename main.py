@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (QTableWidgetItem, QApplication, QDialog,
                              QMainWindow, QWidget, QFileDialog, 
                              QMessageBox, QAbstractItemView)
 
-from gui_py.MainWindow import MainWindow
+from gui_py.MainWindow import Ui_MainWindow
 
 from DialogDomains import DialogDomains
 from DialogVariables import DialogVariables
@@ -25,7 +25,7 @@ class Expert_System(QMainWindow):
     def __init__(self, parent=None):
 
         QWidget.__init__(self, parent)
-        self.ui = MainWindow()
+        self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
         self.knowledge = Knowledge()

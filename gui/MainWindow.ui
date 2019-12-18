@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
+    <width>1061</width>
     <height>512</height>
    </rect>
   </property>
@@ -17,20 +17,20 @@
    <widget class="QListWidget" name="listWidget">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>860</x>
       <y>130</y>
-      <width>171</width>
-      <height>141</height>
+      <width>170</width>
+      <height>140</height>
      </rect>
     </property>
    </widget>
    <widget class="QListWidget" name="listWidget_2">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>860</x>
       <y>280</y>
-      <width>171</width>
-      <height>141</height>
+      <width>170</width>
+      <height>140</height>
      </rect>
     </property>
    </widget>
@@ -38,16 +38,16 @@
     <property name="geometry">
      <rect>
       <x>15</x>
-      <y>21</y>
-      <width>421</width>
-      <height>401</height>
+      <y>20</y>
+      <width>820</width>
+      <height>400</height>
      </rect>
     </property>
    </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>860</x>
       <y>10</y>
       <width>171</width>
       <height>114</height>
@@ -58,21 +58,21 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="buttonAdd">
        <property name="text">
         <string>Добавить</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="buttonEdit">
        <property name="text">
         <string>Редактировать</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="buttonDelete">
        <property name="text">
         <string>Удалить</string>
        </property>
@@ -83,8 +83,8 @@
    <widget class="QPushButton" name="test_button">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>430</y>
+      <x>810</x>
+      <y>440</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -99,7 +99,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>640</width>
+     <width>1061</width>
      <height>21</height>
     </rect>
    </property>
@@ -110,6 +110,7 @@
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
+    <addaction name="actionSaveAs"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -119,12 +120,16 @@
     </property>
     <addaction name="actionVariables"/>
     <addaction name="actionDomains"/>
+    <addaction name="actionFacts"/>
+    <addaction name="separator"/>
     <addaction name="actionViewOntology"/>
    </widget>
    <widget class="QMenu" name="menuRecommendation">
     <property name="title">
      <string>Рекомендация</string>
     </property>
+    <addaction name="action"/>
+    <addaction name="separator"/>
     <addaction name="actionStart"/>
    </widget>
    <widget class="QMenu" name="menuSolution">
@@ -147,7 +152,7 @@
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="actionSave">
+  <action name="actionSaveAs">
    <property name="text">
     <string>Сохранить как ...</string>
    </property>
@@ -206,6 +211,21 @@
   <action name="actionSolution">
    <property name="text">
     <string>Показать решение</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>Цель консультации</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Сохранить</string>
+   </property>
+  </action>
+  <action name="actionFacts">
+   <property name="text">
+    <string>Факты</string>
    </property>
   </action>
  </widget>
