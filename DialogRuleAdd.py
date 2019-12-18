@@ -42,7 +42,8 @@ class DialogRuleAdd(QDialog):
         rule = {'condition': [], 'conditions set': []}
         for row in range(self.ui.fullCondition.count()):
             rule['condition'].append(self.ui.fullCondition.item(row).text())
-            rule['conditions set'].append(self.ui.fullCondition.item(row).text())
+            if self.ui.fullCondition.item(row).text() not in ['AND', 'OR', 'NOT']:
+                rule['conditions set'].append(self.ui.fullCondition.item(row).text())
         rule['condition'] = ' '.join(rule['condition'])
         rule['result'] = self.ui.result.text()
         if self.edit == None:
