@@ -6,50 +6,30 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1061</width>
-    <height>512</height>
+    <width>1165</width>
+    <height>568</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QListWidget" name="listWidget">
-    <property name="geometry">
-     <rect>
-      <x>860</x>
-      <y>130</y>
-      <width>170</width>
-      <height>140</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QListWidget" name="listWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>860</x>
-      <y>280</y>
-      <width>170</width>
-      <height>140</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QListWidget" name="Rules">
     <property name="geometry">
      <rect>
       <x>15</x>
       <y>20</y>
-      <width>820</width>
-      <height>400</height>
+      <width>881</width>
+      <height>491</height>
      </rect>
     </property>
    </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>860</x>
-      <y>10</y>
-      <width>171</width>
+      <x>920</x>
+      <y>16</y>
+      <width>231</width>
       <height>114</height>
      </rect>
     </property>
@@ -80,18 +60,41 @@
      </item>
     </layout>
    </widget>
-   <widget class="QPushButton" name="test_button">
+   <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>810</x>
-      <y>440</y>
-      <width>75</width>
-      <height>23</height>
+      <x>920</x>
+      <y>136</y>
+      <width>231</width>
+      <height>181</height>
      </rect>
     </property>
-    <property name="text">
-     <string>test</string>
+    <property name="title">
+     <string>Условия</string>
     </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QListWidget" name="premises"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>320</y>
+      <width>231</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Вывод</string>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QListWidget" name="condition"/>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -99,7 +102,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1061</width>
+     <width>1165</width>
      <height>21</height>
     </rect>
    </property>

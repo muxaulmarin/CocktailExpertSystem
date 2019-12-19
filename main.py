@@ -59,6 +59,7 @@ class Expert_System(QMainWindow):
         self.ui.buttonDelete.clicked.connect(self.click_buttonDelete)
 
         self.ui.Rules.setDragDropMode(QAbstractItemView.InternalMove)
+        self.ui.Rules.itemSelectionChanged.connect(self.RefreshBoxes)
 
     def showDialogNew(self):
         qm = QMessageBox()
@@ -97,10 +98,7 @@ class Expert_System(QMainWindow):
                 self.knowledge.rules = knowledge_dict['rules']
             self.setWindowTitle('Экспертная система - ' + fileName.split('/')[-1])
             self.ui.Rules.clear()
-            for num, N in enumerate(self.knowledge.rules):
-                rule = self.knowledge.rules[N]['condition']
-                result = self.knowledge.rules[N]['result']
-                self.ui.Rules.addItem(f'{num} -- IF ' + rule + ' THEN ' + result)
+            self.RefreshRules()
 
     def saveKnowledge(self):
         if self.file == None:
@@ -293,10 +291,10 @@ class Expert_System(QMainWindow):
             return N
 
     def RefreshRules(self):
-        for num, R in enumerate(self.knowledge.rules):
+        for R in self.knowledge.rules:
             rule = self.knowledge.rules[R]['condition']
             result = self.knowledge.rules[R]['result']
-            self.ui.Rules.addItem(f'{num} -- IF ' + rule + ' THEN ' + result)
+            self.ui.Rules.addItem('IF ' + rule + ' THEN ' + result)
 
     def find_key(self):
         selected_row = self.ui.Rules.currentItem().text()
@@ -307,6 +305,21 @@ class Expert_System(QMainWindow):
             if selected_row.endswith(current_row):
                 break
         return key
+
+    def RefreshBoxes(self):
+        condition_1 = self.ui.Rules.currentIndex().row() == -1
+        condition_2 = len(self.ui.Rules.selectedIndexes()) == 0
+        if condition_1 or condition_2:
+            self.ui.premises.clear()
+            self.ui.condition.clear()
+        else:
+            self.ui.premises.clear()
+            self.ui.condition.clear()
+            rule = self.ui.Rules.item(self.ui.Rules.currentIndex().row()).text()
+            premises, result = rule[3:].split(' THEN ')
+            self.ui.condition.addItem(result)
+            self.ui.premises.addItems(premises.split(' AND '))
+
 
 if __name__ == '__main__':
     import sys
