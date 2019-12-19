@@ -34,6 +34,7 @@ class Expert_System(QMainWindow):
 
         self.file = None
         self.goal = None
+        self.log = None
 
         self.ui.actionNew.triggered.connect(self.showDialogNew)
         self.ui.actionOpen.triggered.connect(self.showDialogOpen)
@@ -60,10 +61,7 @@ class Expert_System(QMainWindow):
 
     def TEST(self):
         print('', '' ,
-        self.knowledge.domains, 
-        self.knowledge.variables, 
-        self.knowledge.rules,
-        self.goal,
+        self.log,
         sep='\n')
 
     def showDialogNew(self):
@@ -177,7 +175,10 @@ class Expert_System(QMainWindow):
             Window_DialogRecommendation.exec_()
         else:
             Window_DialogRecommendation = DialogRecommendation(self.knowledge, self.goal)
-            Window_DialogRecommendation.exec_()
+            if Window_DialogRecommendation.exec_() == QDialog.close:
+                self.log = Window_DialogRecommendation.log
+            else:
+                self.log = Window_DialogRecommendation.log
 
     def showDialogGoal(self):
         Window_DialogGoal = DialogGoal(self.knowledge)

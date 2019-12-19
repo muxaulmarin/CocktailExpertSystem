@@ -37,9 +37,10 @@ class DialogFacts(QDialog):
         condition = self.ui.condition.currentText()
         value = self.ui.values.currentText()
         N = str(len(self.knowledge.facts) + 1)
+        while N in [n for n in self.knowledge.facts.keys()]:
+            N = str(int(N) + 1)
         self.knowledge.facts[N] = {'variable': var_name, 'condition': condition, 'value': value}
         self.RefreshView()
-        print(len(self.knowledge.facts))
 
     def click_buttonEdit(self):
         if len(self.ui.tableWidget.selectedIndexes()) == 0:

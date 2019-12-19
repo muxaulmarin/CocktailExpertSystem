@@ -29,6 +29,7 @@ class DialogRecommendation(QDialog):
         self.questions = {}
         self.answers = {}
         self.facts = []
+        self.log = []
 
         self.questionsExtractor()
 
@@ -44,12 +45,11 @@ class DialogRecommendation(QDialog):
             answer = self.ui.tableWidget.item(idx, 0).text()
             question = self.ui.label.text()
             self.answers[question] = answer
-
+            self.log.append(('Вы дали ответ -- ', answer))
             for var in self.knowledge.variables:
                 if self.knowledge.variables[var]['question'] == question:
                     break
             self.facts.append(var + ' == ' + answer)
-            print(self.facts)
 
             self.consultation()
 
@@ -68,10 +68,8 @@ class DialogRecommendation(QDialog):
             self.End(self.facts[0])
         else:
             question, answers = list(self.questions.items())[0]
-            print(self.questions.keys())
+            self.log.append(('Был задан вопрос -- ', question))
             del self.questions[question]
-            print('delete')
-            print(self.questions.keys())
             self.ui.label.setText(question)
             self.ui.tableWidget.setRowCount(0)
             for n, answer in enumerate(answers):
@@ -82,6 +80,7 @@ class DialogRecommendation(QDialog):
             self.ui.tableWidget.resizeRowsToContents()
 
     def findAnswerGoal(self):
+        self.log.append(('На основании ответов, полученных во время консультации'))
         N = len(self.facts)
         empty_iterations = 0
         while empty_iterations < 3:
@@ -94,6 +93,11 @@ class DialogRecommendation(QDialog):
                         isNeed = False
                         break
                 if isNeed:
+                    self.log.append(('Сработало правило -- ', 
+                                     'ЕСЛИ ', 
+                                     self.knowledge.rules[rule_id]['condition'], 
+                                     ' ТО ', 
+                                     self.knowledge.rules[rule_id]['result']))
                     changed_facts = []
                     for fact in self.facts:
                         if fact in premises:
@@ -102,6 +106,7 @@ class DialogRecommendation(QDialog):
                             changed_facts.append(fact)
                     result = self.knowledge.rules[rule_id]['result']
                     self.facts = changed_facts + [result]
+                    self.log.append(('В результате был выведен следующий факт -- ', result))
                 else:
                     continue
             if len(self.facts) == N:
@@ -109,17 +114,14 @@ class DialogRecommendation(QDialog):
             else:
                 N = len(self.facts)
         if len(self.facts) != 1:
-            self.facts = ['По вашему запросу ничего не найдено']
+            self.facts = ['К сожалению по вашему запросу ничего не найдено, попробуйте коктейли из неоспоримой классики или пройдите консультацию еще раз. Неоспоримая классика - это лонгайленд, и бла бла бла']
 
     def End(self, answer):
+        self.close()
+        self.log.append(('В результате консультации вы получили ответ на запрос -- ', self.goal))
+        self.log.append(('Ответ -- ', answer))
         Window_End = End(answer)
-        if Window_End.exec_() == QDialog.Accepted:
-            self.ui.pushButton.setText('')
-            self.ui.pushButton.setDisabled(True)
-            self.ui.tableWidget.setRowCount(0)
-            self.ui.label.setText('Закройте окно, дует')
-        else:
-            pass
+        Window_End.exec_()
 
     def click_buttonTEST(self):
         print(self.goal)

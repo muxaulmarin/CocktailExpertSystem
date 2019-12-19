@@ -18,7 +18,12 @@ class MLV:
 			for rule_id in all_rules:
 				rule = self.knowledge['rules'][rule_id]
 				goal = rule['result'].split(' == ')[0]
-				goal_type = self.knowledge['variables'][goal]['category']
+				try:
+					goal_type = self.knowledge['variables'][goal]['category']
+				except KeyError:
+					print('goal ',goal)
+					print('ruleid ', rule_id)
+					break
 				if goal in derivable_goals:
 					if goal_type == 'Запрашиваемая':
 						request_goals.add(goal)
