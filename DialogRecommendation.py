@@ -114,9 +114,10 @@ class DialogRecommendation(QDialog):
     def End(self, answer):
         Window_End = End(answer)
         if Window_End.exec_() == QDialog.Accepted:
-            self.ui.pushButton.setText('Начать!')
+            self.ui.pushButton.setText('')
+            self.ui.pushButton.setDisabled(True)
             self.ui.tableWidget.setRowCount(0)
-            self.ui.label.setText(' ')
+            self.ui.label.setText('Закройте окно, дует')
         else:
             pass
 
