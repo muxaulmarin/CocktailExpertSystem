@@ -23,7 +23,6 @@ class DialogRecommendation(QDialog):
         
         self.ui.pushButton.setText('Принять ответ')
         self.ui.pushButton.clicked.connect(self.click_Answer)
-        self.ui.buttonTest.clicked.connect(self.click_buttonTEST)
 
         self.knowledge = knowledge
         self.goal = goal
@@ -132,9 +131,3 @@ class DialogRecommendation(QDialog):
             else:
                 Window_End = Dialog_GoodEnd(answer)
                 Window_End.exec_()
-
-    def click_buttonTEST(self):
-        print(self.goal)
-        print(self.knowledge.rules_mlv)
-        print(self.knowledge.derivable_goals)
-        print(self.knowledge.request_goals)

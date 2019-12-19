@@ -191,28 +191,45 @@ class Expert_System(QMainWindow):
                 pass
 
     def showDialogRecommendation(self):
-        if self.goal == None:
+        if self.goal == None and len(self.knowledge.variables) != 0:
             self.showDialogGoal()
             Window_DialogRecommendation = DialogRecommendation(self.knowledge, self.goal)
             if Window_DialogRecommendation.exec_() == 0:
                 self.log = Window_DialogRecommendation.log
-        else:
+        elif len(self.knowledge.variables) != 0:
             Window_DialogRecommendation = DialogRecommendation(self.knowledge, self.goal)
             if Window_DialogRecommendation.exec_() == 0:
                 self.log = Window_DialogRecommendation.log
+        else:
+            qm = QMessageBox()
+            qm.setWindowTitle('Нет БЗ')
+            ret = qm.question(self,'', "В системе выводимых переменных", qm.Ok)
+            if ret == qm.Ok:
+                pass
+            else:
+                pass
 
     def showDialogGoal(self):
-        Window_DialogGoal = DialogGoal(self.knowledge)
+        if len(self.knowledge.variables) == 0:
+            qm = QMessageBox()
+            qm.setWindowTitle('Нет БЗ')
+            ret = qm.question(self,'', "В системе выводимых переменных", qm.Ok)
+            if ret == qm.Ok:
+                pass
+            else:
+                pass
+        else:
+            Window_DialogGoal = DialogGoal(self.knowledge)
 
-        if Window_DialogGoal.exec_() == QDialog.Accepted:
-            self.goal = Window_DialogGoal.click_buttonOK()
+            if Window_DialogGoal.exec_() == QDialog.Accepted:
+                self.goal = Window_DialogGoal.click_buttonOK()
 
-            mlv = MLV(self.knowledge.as_dict())
-            mlv.inference_logical_mechanism(self.goal)
+                mlv = MLV(self.knowledge.as_dict())
+                mlv.inference_logical_mechanism(self.goal)
 
-            self.knowledge.derivable_goals = mlv.derivable_goals
-            self.knowledge.request_goals = mlv.request_goals
-            self.knowledge.rules_mlv = mlv.rules
+                self.knowledge.derivable_goals = mlv.derivable_goals
+                self.knowledge.request_goals = mlv.request_goals
+                self.knowledge.rules_mlv = mlv.rules
 
     def showDialogSolution(self):
         if self.log:

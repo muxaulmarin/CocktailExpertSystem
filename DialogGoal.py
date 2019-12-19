@@ -18,5 +18,4 @@ class DialogGoal(QDialog):
                 self.ui.comboBox.addItem(var)
 
     def click_buttonOK(self):
-        print(self.ui.comboBox.currentText())
         return self.ui.comboBox.currentText()

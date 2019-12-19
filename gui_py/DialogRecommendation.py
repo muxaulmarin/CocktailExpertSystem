@@ -18,7 +18,7 @@ class Ui_Dialog(object):
         self.tableWidget.setGeometry(QtCore.QRect(20, 110, 270, 311))
         font = QtGui.QFont()
         font.setFamily("Tahoma")
-        font.setPointSize(6)
+        font.setPointSize(8)
         self.tableWidget.setFont(font)
         self.tableWidget.setColumnCount(1)
         self.tableWidget.setObjectName("tableWidget")
@@ -32,9 +32,6 @@ class Ui_Dialog(object):
         self.label.setGeometry(QtCore.QRect(20, 30, 270, 60))
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
-        self.buttonTest = QtWidgets.QPushButton(Dialog)
-        self.buttonTest.setGeometry(QtCore.QRect(10, 430, 75, 23))
-        self.buttonTest.setObjectName("buttonTest")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -46,4 +43,3 @@ class Ui_Dialog(object):
         item.setText(_translate("Dialog", "Варианты ответа"))
         self.pushButton.setText(_translate("Dialog", "Принять ответ"))
         self.label.setText(_translate("Dialog", "TextLabel"))
-        self.buttonTest.setText(_translate("Dialog", "TEST"))
