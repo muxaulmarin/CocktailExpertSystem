@@ -16,6 +16,7 @@ from DialogRecommendation import DialogRecommendation
 from DialogGoal import DialogGoal
 
 from knowledge import Knowledge
+from MLV import MLV
 
 import os
 import json
@@ -79,22 +80,35 @@ class Expert_System(QMainWindow):
         options |= QFileDialog.DontUseNativeDialog
         fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)", options=options)
         self.file = fileName
-        if fileName:
+        if fileName.endswith('.obj'):
             with open(fileName, 'rb') as pkl:
                 knowledge_dict = pickle.load(pkl)
                 self.knowledge.domains = knowledge_dict['domains']
                 self.knowledge.variables = knowledge_dict['variables']
                 self.knowledge.facts = knowledge_dict['facts']
                 self.knowledge.rules = knowledge_dict['rules']
-        self.setWindowTitle('Coctail Expert System - ' + fileName.split('/')[-1])
-        self.ui.Rules.clear()
-        for num, N in enumerate(self.knowledge.rules):
-            rule = self.knowledge.rules[N]['condition']
-            result = self.knowledge.rules[N]['result']
-            self.ui.Rules.addItem(f'{num} -- IF ' + rule + ' THEN ' + result)
+            self.setWindowTitle('Coctail Expert System - ' + fileName.split('/')[-1])
+            self.ui.Rules.clear()
+            for num, N in enumerate(self.knowledge.rules):
+                rule = self.knowledge.rules[N]['condition']
+                result = self.knowledge.rules[N]['result']
+                self.ui.Rules.addItem(f'{num} -- IF ' + rule + ' THEN ' + result)
+        elif fileName.endswith('.json'):
+            with open(fileName, 'r') as jsonfile:
+                knowledge_dict = json.load(jsonfile)
+                self.knowledge.domains = knowledge_dict['domains']
+                self.knowledge.variables = knowledge_dict['variables']
+                self.knowledge.facts = knowledge_dict['facts']
+                self.knowledge.rules = knowledge_dict['rules']
+            self.setWindowTitle('Coctail Expert System - ' + fileName.split('/')[-1])
+            self.ui.Rules.clear()
+            for num, N in enumerate(self.knowledge.rules):
+                rule = self.knowledge.rules[N]['condition']
+                result = self.knowledge.rules[N]['result']
+                self.ui.Rules.addItem(f'{num} -- IF ' + rule + ' THEN ' + result)
 
     def saveKnowledge(self):
-        if self.file:
+        if self.file.endswith('.obj'):
             knowledge_dict = {'domains': self.knowledge.domains, 
                               'variables': self.knowledge.variables, 
                               'facts': self.knowledge.facts, 
@@ -102,6 +116,14 @@ class Expert_System(QMainWindow):
 
             with open(self.file, 'wb') as pkl:
                 pickle.dump(knowledge_dict, pkl, protocol=pickle.HIGHEST_PROTOCOL)
+        else:
+            knowledge_dict = {'domains': self.knowledge.domains, 
+                              'variables': self.knowledge.variables, 
+                              'facts': self.knowledge.facts, 
+                              'rules': self.knowledge.rules}
+
+            with open(self.file, 'w') as jsonfile:
+                json.dump(knowledge_dict, jsonfile)
 
     def showDialogSaveAs(self):
         options = QFileDialog.Options()
@@ -113,7 +135,7 @@ class Expert_System(QMainWindow):
                               'facts': self.knowledge.facts, 
                               'rules': self.knowledge.rules}
 
-            with open(fileName, 'wb') as pkl:
+            with open(fileName + '.obj', 'wb') as pkl:
                 pickle.dump(knowledge_dict, pkl, protocol=pickle.HIGHEST_PROTOCOL)
 
     def showDialogExit(self):
@@ -149,17 +171,26 @@ class Expert_System(QMainWindow):
             pass
 
     def showDialogRecommendation(self):
-        Window_DialogRecommendation = DialogRecommendation()
-        Window_DialogRecommendation.knowledge = self.knowledge
-        Window_DialogRecommendation.exec_()
-        print(Window_DialogRecommendation.questions)
+        if self.goal == None:
+            self.showDialogGoal()
+            Window_DialogRecommendation = DialogRecommendation(self.knowledge, self.goal)
+            Window_DialogRecommendation.exec_()
+        else:
+            Window_DialogRecommendation = DialogRecommendation(self.knowledge, self.goal)
+            Window_DialogRecommendation.exec_()
 
     def showDialogGoal(self):
-        Window_DialogGoal = DialogGoal()
-        Window_DialogGoal.knowledge = self.knowledge
-        Window_DialogGoal.RefreshComboBox()
+        Window_DialogGoal = DialogGoal(self.knowledge)
+
         if Window_DialogGoal.exec_() == QDialog.Accepted:
             self.goal = Window_DialogGoal.click_buttonOK()
+
+            mlv = MLV(self.knowledge.as_dict())
+            mlv.inference_logical_mechanism(self.goal)
+
+            self.knowledge.derivable_goals = mlv.derivable_goals
+            self.knowledge.request_goals = mlv.request_goals
+            self.knowledge.rules_mlv = mlv.rules
 
     def showDialogSolution(self):
         pass
@@ -183,7 +214,7 @@ class Expert_System(QMainWindow):
             Window_DialogRuleAdd.RefreshComboBoxFacts()
             N = self.find_key()
             Window_DialogRuleAdd.edit = N
-            for condition in self.knowledge.rules[N]['conditions set']:
+            for condition in self.knowledge.rules[N]['premises']:
                 Window_DialogRuleAdd.ui.fullCondition.addItem(condition)
             Window_DialogRuleAdd.ui.result.setText(self.knowledge.rules[N]['result'])
 

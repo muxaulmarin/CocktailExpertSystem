@@ -20,3 +20,11 @@ class Knowledge():
         self.variables = dict_like.variables
         self.facts = self.facts
         self.rules = self.rules
+
+    def as_dict(self):
+        dictionary = {}
+        dictionary['rules'] = self.rules
+        dictionary['variables'] = self.variables
+        dictionary['facts'] = self.facts
+        dictionary['domains'] = self.domains
+        return dictionary

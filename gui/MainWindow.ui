@@ -118,8 +118,8 @@
     <property name="title">
      <string>Знания</string>
     </property>
-    <addaction name="actionVariables"/>
     <addaction name="actionDomains"/>
+    <addaction name="actionVariables"/>
     <addaction name="actionFacts"/>
     <addaction name="separator"/>
     <addaction name="actionViewOntology"/>
