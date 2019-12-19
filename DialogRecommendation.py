@@ -1,4 +1,6 @@
 from gui_py.DialogRecommendation import Ui_Dialog
+from goodEnd import Dialog_GoodEnd
+from badEnd import Dialog_BadEnd
 from END import End
 
 from PyQt5.QtWidgets import QDialog, QWidget, QApplication, QTableWidgetItem, QAbstractItemView
@@ -45,7 +47,7 @@ class DialogRecommendation(QDialog):
             answer = self.ui.tableWidget.item(idx, 0).text()
             question = self.ui.label.text()
             self.answers[question] = answer
-            self.log.append(('Вы дали ответ -- ', answer))
+            self.log.append(['Вы дали ответ -- ', answer])
             for var in self.knowledge.variables:
                 if self.knowledge.variables[var]['question'] == question:
                     break
@@ -62,13 +64,15 @@ class DialogRecommendation(QDialog):
 
     def consultation(self):
         if len(self.questions) == 0:
-            self.ui.label.setText('END')
+            self.ui.label.setText('')
             self.ui.tableWidget.setRowCount(0)
             self.findAnswerGoal()
+            self.log.append(['В результате консультации вы получили ответ на запрос -- ', self.goal])
+            self.log.append(['Ответ -- ', self.facts[0]])
             self.End(self.facts[0])
         else:
             question, answers = list(self.questions.items())[0]
-            self.log.append(('Был задан вопрос -- ', question))
+            self.log.append(['Был задан вопрос -- ', question])
             del self.questions[question]
             self.ui.label.setText(question)
             self.ui.tableWidget.setRowCount(0)
@@ -80,7 +84,7 @@ class DialogRecommendation(QDialog):
             self.ui.tableWidget.resizeRowsToContents()
 
     def findAnswerGoal(self):
-        self.log.append(('На основании ответов, полученных во время консультации'))
+        self.log.append(['На основании ответов, полученных во время консультации'])
         N = len(self.facts)
         empty_iterations = 0
         while empty_iterations < 3:
@@ -93,11 +97,11 @@ class DialogRecommendation(QDialog):
                         isNeed = False
                         break
                 if isNeed:
-                    self.log.append(('Сработало правило -- ', 
+                    self.log.append(['Сработало правило -- ', 
                                      'ЕСЛИ ', 
                                      self.knowledge.rules[rule_id]['condition'], 
                                      ' ТО ', 
-                                     self.knowledge.rules[rule_id]['result']))
+                                     self.knowledge.rules[rule_id]['result']])
                     changed_facts = []
                     for fact in self.facts:
                         if fact in premises:
@@ -106,7 +110,7 @@ class DialogRecommendation(QDialog):
                             changed_facts.append(fact)
                     result = self.knowledge.rules[rule_id]['result']
                     self.facts = changed_facts + [result]
-                    self.log.append(('В результате был выведен следующий факт -- ', result))
+                    self.log.append(['В результате был выведен следующий факт -- ', result])
                 else:
                     continue
             if len(self.facts) == N:
@@ -114,14 +118,20 @@ class DialogRecommendation(QDialog):
             else:
                 N = len(self.facts)
         if len(self.facts) != 1:
-            self.facts = ['К сожалению по вашему запросу ничего не найдено, попробуйте коктейли из неоспоримой классики или пройдите консультацию еще раз. Неоспоримая классика - это лонгайленд, и бла бла бла']
+            self.facts = ['ПУСТО']
 
     def End(self, answer):
         self.close()
-        self.log.append(('В результате консультации вы получили ответ на запрос -- ', self.goal))
-        self.log.append(('Ответ -- ', answer))
-        Window_End = End(answer)
-        Window_End.exec_()
+        if self.goal != 'Коктейли':
+            Window_End = End(answer)
+            Window_End.exec_()
+        else:
+            if 'ПУСТО' in answer:
+                Window_End = Dialog_BadEnd()
+                Window_End.exec_()
+            else:
+                Window_End = Dialog_GoodEnd(answer)
+                Window_End.exec_()
 
     def click_buttonTEST(self):
         print(self.goal)

@@ -14,6 +14,7 @@ from DialogRuleAdd import DialogRuleAdd
 from DialogSVG import WindowSVG
 from DialogRecommendation import DialogRecommendation
 from DialogGoal import DialogGoal
+from DialogSolution import DialogSolution
 
 from knowledge import Knowledge
 from MLV import MLV
@@ -172,12 +173,11 @@ class Expert_System(QMainWindow):
         if self.goal == None:
             self.showDialogGoal()
             Window_DialogRecommendation = DialogRecommendation(self.knowledge, self.goal)
-            Window_DialogRecommendation.exec_()
+            if Window_DialogRecommendation.exec_() == 0:
+                self.log = Window_DialogRecommendation.log
         else:
             Window_DialogRecommendation = DialogRecommendation(self.knowledge, self.goal)
-            if Window_DialogRecommendation.exec_() == QDialog.close:
-                self.log = Window_DialogRecommendation.log
-            else:
+            if Window_DialogRecommendation.exec_() == 0:
                 self.log = Window_DialogRecommendation.log
 
     def showDialogGoal(self):
@@ -194,7 +194,8 @@ class Expert_System(QMainWindow):
             self.knowledge.rules_mlv = mlv.rules
 
     def showDialogSolution(self):
-        pass
+        Window_DialogSolution = DialogSolution(self.log)
+        Window_DialogSolution.exec_()
 
     def showDialogAddRule(self):
         Window_DialogRuleAdd = DialogRuleAdd()

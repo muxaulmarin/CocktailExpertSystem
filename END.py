@@ -9,5 +9,5 @@ class End(QDialog):
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         self.ui.buttonBox.button(QDialogButtonBox.Ok).setText('Спасибо!')
-        self.ui.buttonBox.button(QDialogButtonBox.Cancel).setText('Продолжить')
+        self.ui.buttonBox.button(QDialogButtonBox.Cancel).setText('Большое спасибо')
         self.ui.label.setText(answer)
