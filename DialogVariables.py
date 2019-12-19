@@ -20,7 +20,6 @@ class DialogVariables(QDialog):
         self.ui.tableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
 
         self.ui.buttonAdd.clicked.connect(self.showDialogVariableAdd)
-        self.ui.testButton.clicked.connect(self.click_buttonTest)
         self.ui.buttonDelete.clicked.connect(self.click_buttonDelete)
         self.ui.buttonEdit.clicked.connect(self.click_buttonEdit)
         
@@ -48,11 +47,6 @@ class DialogVariables(QDialog):
             for n_col in range(self.ui.tableWidget.columnCount()):
                 self.ui.tableWidget.item(n_row, n_col).setFlags(Qt.ItemIsSelectable |  Qt.ItemIsEnabled)
         self.ui.tableWidget.resizeRowsToContents()
-
-    def click_buttonTest(self):
-        print(f'Domains {self.knowledge.domains}', 
-        f'Variables {self.knowledge.variables}', 
-        sep='\n')
 
     def RefreshQuestionDomainBoxes(self):
         condition_1 = self.ui.tableWidget.currentIndex().row() == -1

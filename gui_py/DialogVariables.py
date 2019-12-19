@@ -65,9 +65,6 @@ class Ui_Dialog(object):
         self.Question.setObjectName("Question")
         self.verticalLayout_5.addWidget(self.Question)
         self.verticalLayout_2.addWidget(self.groupBox_5)
-        self.testButton = QtWidgets.QPushButton(Dialog)
-        self.testButton.setGeometry(QtCore.QRect(590, 410, 75, 23))
-        self.testButton.setObjectName("testButton")
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
@@ -90,4 +87,3 @@ class Ui_Dialog(object):
         self.groupBox_2.setTitle(_translate("Dialog", "Текушая переменная"))
         self.groupBox_3.setTitle(_translate("Dialog", "Возможные значения"))
         self.groupBox_5.setTitle(_translate("Dialog", "Текст вопроса для озвучивания"))
-        self.testButton.setText(_translate("Dialog", "TEST"))

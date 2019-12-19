@@ -37,6 +37,8 @@ class Expert_System(QMainWindow):
         self.goal = None
         self.log = None
 
+        self.setWindowTitle('Экспертная система')
+
         self.ui.actionNew.triggered.connect(self.showDialogNew)
         self.ui.actionOpen.triggered.connect(self.showDialogOpen)
         self.ui.actionSaveAs.triggered.connect(self.showDialogSaveAs)
@@ -58,26 +60,20 @@ class Expert_System(QMainWindow):
 
         self.ui.Rules.setDragDropMode(QAbstractItemView.InternalMove)
 
-        self.ui.test_button.clicked.connect(self.TEST)
-
-    def TEST(self):
-        print('', '' ,
-        self.log,
-        sep='\n')
-
     def showDialogNew(self):
         qm = QMessageBox()
+        qm.setWindowTitle('Создать новую базу знаний')
         ret = qm.question(self,'', "Вы уверены?", qm.Yes | qm.No)
         if ret == qm.Yes:
             self.knowledge = Knowledge()
-            self.setWindowTitle('Coctail Expert System - Untitled' )
+            self.setWindowTitle('Экспертная система - БезНазвания' )
         else:
             pass
 
     def showDialogOpen(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)", options=options)
+        fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","JSON Files (*.json);;Pickle Files (*.obj)", options=options)
         self.file = fileName
         if fileName.endswith('.obj'):
             with open(fileName, 'rb') as pkl:
@@ -86,7 +82,7 @@ class Expert_System(QMainWindow):
                 self.knowledge.variables = knowledge_dict['variables']
                 self.knowledge.facts = knowledge_dict['facts']
                 self.knowledge.rules = knowledge_dict['rules']
-            self.setWindowTitle('Coctail Expert System - ' + fileName.split('/')[-1])
+            self.setWindowTitle('Экспертная система - ' + fileName.split('/')[-1])
             self.ui.Rules.clear()
             for num, N in enumerate(self.knowledge.rules):
                 rule = self.knowledge.rules[N]['condition']
@@ -99,7 +95,7 @@ class Expert_System(QMainWindow):
                 self.knowledge.variables = knowledge_dict['variables']
                 self.knowledge.facts = knowledge_dict['facts']
                 self.knowledge.rules = knowledge_dict['rules']
-            self.setWindowTitle('Coctail Expert System - ' + fileName.split('/')[-1])
+            self.setWindowTitle('Экспертная система - ' + fileName.split('/')[-1])
             self.ui.Rules.clear()
             for num, N in enumerate(self.knowledge.rules):
                 rule = self.knowledge.rules[N]['condition']
@@ -107,22 +103,38 @@ class Expert_System(QMainWindow):
                 self.ui.Rules.addItem(f'{num} -- IF ' + rule + ' THEN ' + result)
 
     def saveKnowledge(self):
-        if self.file.endswith('.obj'):
-            knowledge_dict = {'domains': self.knowledge.domains, 
-                              'variables': self.knowledge.variables, 
-                              'facts': self.knowledge.facts, 
-                              'rules': self.knowledge.rules}
+        if self.file == None:
+            options = QFileDialog.Options()
+            options |= QFileDialog.DontUseNativeDialog
+            fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","All Files (*);;Text Files (*.txt)", options=options)
+            if fileName:
+                knowledge_dict = {'domains': self.knowledge.domains, 
+                                  'variables': self.knowledge.variables, 
+                                  'facts': self.knowledge.facts, 
+                                  'rules': self.knowledge.rules}
 
-            with open(self.file, 'wb') as pkl:
-                pickle.dump(knowledge_dict, pkl, protocol=pickle.HIGHEST_PROTOCOL)
+                with open(fileName + '.obj', 'wb') as pkl:
+                    pickle.dump(knowledge_dict, pkl, protocol=pickle.HIGHEST_PROTOCOL)
+            self.file = fileName
+            self.setWindowTitle('Экспертная система - ' + fileName.split('/')[-1])
+
         else:
-            knowledge_dict = {'domains': self.knowledge.domains, 
-                              'variables': self.knowledge.variables, 
-                              'facts': self.knowledge.facts, 
-                              'rules': self.knowledge.rules}
+            if self.file.endswith('.obj'):
+                knowledge_dict = {'domains': self.knowledge.domains, 
+                                  'variables': self.knowledge.variables, 
+                                  'facts': self.knowledge.facts, 
+                                  'rules': self.knowledge.rules}
 
-            with open(self.file, 'w') as jsonfile:
-                json.dump(knowledge_dict, jsonfile)
+                with open(self.file, 'wb') as pkl:
+                    pickle.dump(knowledge_dict, pkl, protocol=pickle.HIGHEST_PROTOCOL)
+            else:
+                knowledge_dict = {'domains': self.knowledge.domains, 
+                                  'variables': self.knowledge.variables, 
+                                  'facts': self.knowledge.facts, 
+                                  'rules': self.knowledge.rules}
+
+                with open(self.file, 'w') as jsonfile:
+                    json.dump(knowledge_dict, jsonfile)
 
     def showDialogSaveAs(self):
         options = QFileDialog.Options()
@@ -163,11 +175,20 @@ class Expert_System(QMainWindow):
             self.knowledge = Window_DialogFacts.knowledge
 
     def showDialogOntologyView(self):
-        Window_SVG = WindowSVG()
-        if Window_SVG.exec_() == QDialog.Accepted:
-            pass
+        if self.file:
+            Window_SVG = WindowSVG()
+            if Window_SVG.exec_() == QDialog.Accepted:
+                pass
+            else:
+                pass
         else:
-            pass
+            qm = QMessageBox()
+            qm.setWindowTitle('Нет БЗ')
+            ret = qm.question(self,'', "В системе нет знаний", qm.Ok)
+            if ret == qm.Ok:
+                pass
+            else:
+                pass
 
     def showDialogRecommendation(self):
         if self.goal == None:
@@ -194,8 +215,17 @@ class Expert_System(QMainWindow):
             self.knowledge.rules_mlv = mlv.rules
 
     def showDialogSolution(self):
-        Window_DialogSolution = DialogSolution(self.log)
-        Window_DialogSolution.exec_()
+        if self.log:
+            Window_DialogSolution = DialogSolution(self.log)
+            Window_DialogSolution.exec_()
+        else:
+            qm = QMessageBox()
+            qm.setWindowTitle('Нет БЗ')
+            ret = qm.question(self,'', "Вы должны пройти консультацию", qm.Ok)
+            if ret == qm.Ok:
+                pass
+            else:
+                pass
 
     def showDialogAddRule(self):
         Window_DialogRuleAdd = DialogRuleAdd()

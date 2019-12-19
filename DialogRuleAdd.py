@@ -19,14 +19,17 @@ class DialogRuleAdd(QDialog):
 
 
     def click_buttonAdd(self):
-        if self.ui.radioButtonFact.isChecked():
-            self.ui.fullCondition.addItem(self.ui.Facts.currentText())
-            self.ui.radioButtonFact.setChecked(False)
-            self.ui.radioButtonCondition.setChecked(True)
-        elif self.ui.radioButtonCondition.isChecked():
-            self.ui.fullCondition.addItem(self.ui.condition.currentText())
-            self.ui.radioButtonCondition.setChecked(False)
-            self.ui.radioButtonFact.setChecked(True)
+        if self.ui.Facts.currentText():
+            if self.ui.radioButtonFact.isChecked():
+                self.ui.fullCondition.addItem(self.ui.Facts.currentText())
+                self.ui.radioButtonFact.setChecked(False)
+                self.ui.radioButtonCondition.setChecked(True)
+            elif self.ui.radioButtonCondition.isChecked():
+                self.ui.fullCondition.addItem(self.ui.condition.currentText())
+                self.ui.radioButtonCondition.setChecked(False)
+                self.ui.radioButtonFact.setChecked(True)
+            else:
+                pass
         else:
             pass
 

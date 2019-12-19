@@ -33,14 +33,17 @@ class DialogFacts(QDialog):
         self.ui.values.addItems(values)
 
     def click_buttonAdd(self):
-        var_name = self.ui.variables.currentText()
-        condition = self.ui.condition.currentText()
-        value = self.ui.values.currentText()
-        N = str(len(self.knowledge.facts) + 1)
-        while N in [n for n in self.knowledge.facts.keys()]:
-            N = str(int(N) + 1)
-        self.knowledge.facts[N] = {'variable': var_name, 'condition': condition, 'value': value}
-        self.RefreshView()
+        if self.ui.variables.currentText() and self.ui.values.currentText():
+            var_name = self.ui.variables.currentText()
+            condition = self.ui.condition.currentText()
+            value = self.ui.values.currentText()
+            N = str(len(self.knowledge.facts) + 1)
+            while N in [n for n in self.knowledge.facts.keys()]:
+                N = str(int(N) + 1)
+            self.knowledge.facts[N] = {'variable': var_name, 'condition': condition, 'value': value}
+            self.RefreshView()
+        else:
+            pass
 
     def click_buttonEdit(self):
         if len(self.ui.tableWidget.selectedIndexes()) == 0:
