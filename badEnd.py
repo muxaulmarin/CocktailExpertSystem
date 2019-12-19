@@ -12,7 +12,7 @@ class Dialog_BadEnd(QDialog):
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
 
-        coctails = ['Lond Island', 'Mai Tai', 'White Russian']
+        coctails = ['Лонг Айленд', 'Май Тай', 'Белый русский', 'Космополитан', 'Зомби', 'Апероль Шпритц']
 
         for coctail in coctails:
             self.ui.listWidget.addItem(coctail)

@@ -121,13 +121,15 @@ class DialogRecommendation(QDialog):
 
     def End(self, answer):
         self.close()
-        if self.goal != 'Коктейли':
+        if self.goal != 'Коктейли' and 'ПУСТО' in answer:
+            Window_End = Dialog_BadEnd()
+            Window_End.exec_()
+        elif self.goal != 'Коктейли' and 'ПУСТО' not in answer:
             Window_End = End(answer)
             Window_End.exec_()
+        elif self.goal == 'Коктейли' and 'ПУСТО' in answer:
+            Window_End = Dialog_BadEnd()
+            Window_End.exec_()
         else:
-            if 'ПУСТО' in answer:
-                Window_End = Dialog_BadEnd()
-                Window_End.exec_()
-            else:
-                Window_End = Dialog_GoodEnd(answer)
-                Window_End.exec_()
+            Window_End = Dialog_GoodEnd(answer)
+            Window_End.exec_()
